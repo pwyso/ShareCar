@@ -1,0 +1,142 @@
+﻿@model ShareCar.Models.LiftOffer
+
+@{
+    ViewBag.Title = "Edit";
+}
+@{
+    List<SelectListItem> hour = new List<SelectListItem>();  // create 24 hours for dropdown list
+    for (int i = 1; i <= 23; i++)
+    {
+        hour.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+    }
+}
+@{
+
+    List<SelectListItem> minute = new List<SelectListItem>();  // create 15 min quarters for dropdown list
+    for (int i = 0; i <= 3; i++)
+    {
+        int j = 0;
+        j = i * 15;
+
+        minute.Add(new SelectListItem { Text = j.ToString(), Value = j.ToString() });
+    }
+}
+@{
+    List<SelectListItem> seatsNo = new List<SelectListItem>();  // create 24 hours for dropdown list
+    for (int i = 1; i <= 20; i++)
+    {
+        seatsNo.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+    }
+}
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>LiftOffer</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.LiftOfferID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StartPointName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.StartPointName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StartPointName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EndPointName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EndPointName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EndPointName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepartureHour, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.DepartureHour, hour, "-hour-")
+                @Html.ValidationMessageFor(model => model.DepartureHour, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.DepartureMin, minute, "-min-")
+                @Html.ValidationMessageFor(model => model.DepartureMin, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ArrivalHour, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ArrivalHour, hour, "-hour-")
+                @Html.ValidationMessageFor(model => model.ArrivalHour, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.ArrivalMin, minute, "-min-")
+                @Html.ValidationMessageFor(model => model.ArrivalMin, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CarMake, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CarMake, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CarMake, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CarModel, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CarModel, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CarModel, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SeatsAvailable, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.SeatsAvailable, seatsNo, "0")              
+                @Html.ValidationMessageFor(model => model.SeatsAvailable, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserID, "UserID", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("UserID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
