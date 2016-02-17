@@ -12,6 +12,7 @@
     <AssemblyName>AzureCloudService1</AssemblyName>
     <StartDevelopmentStorage>True</StartDevelopmentStorage>
     <Name>ShareCarAzure</Name>
+    <UseWebProjectPorts>True</UseWebProjectPorts>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
