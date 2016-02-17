@@ -26,7 +26,7 @@ namespace ShareCar.Models
     public class ApplicationDbContext : IdentityDbContext<User>
     {
         // for Azure DB
-        public ApplicationDbContext() : base("DefaultConnection")
+        public ApplicationDbContext() : base("csdb")
         {
         }
 
