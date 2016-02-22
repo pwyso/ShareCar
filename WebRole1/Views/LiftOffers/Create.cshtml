@@ -1,18 +1,19 @@
-﻿@model ShareCar.Models.LiftOffer
+﻿@using ShareCar.Models
+@using Microsoft.AspNet.Identity
+@model ShareCar.Models.LiftOffer
 
 @{
     ViewBag.Title = "Create";
 }
-@{
-    List<SelectListItem> hour = new List<SelectListItem>();  // create 24 hours for dropdown list
+@{  // create 24 hours for dropdown list
+    List<SelectListItem> hour = new List<SelectListItem>();
     for (int i = 1; i <= 23; i++)
     {
         hour.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
     }
 }
-@{
-
-    List<SelectListItem> minute = new List<SelectListItem>();  // create 15 min quarters for dropdown list
+@{  // create 15 min quarters for dropdown list
+    List<SelectListItem> minute = new List<SelectListItem>();
     for (int i = 0; i <= 3; i++)
     {
         int j = 0;
@@ -21,8 +22,8 @@
         minute.Add(new SelectListItem { Text = j.ToString(), Value = j.ToString() });
     }
 }
-@{
-    List<SelectListItem> seatsNo = new List<SelectListItem>();  // create 24 hours for dropdown list
+@{  // create 24 hours for dropdown list
+    List<SelectListItem> seatsNo = new List<SelectListItem>();
     for (int i = 1; i <= 20; i++)
     {
         seatsNo.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
@@ -30,13 +31,12 @@
 }
 <h2>Create</h2>
 
-
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>LiftOffer</h4>
+        <h4>Lift Offer</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -110,15 +110,16 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SeatsAvailable, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.SeatsAvailable, seatsNo, "0")
+                @Html.DropDownListFor(model => model.SeatsAvailable, seatsNo, "-no-")
                 @Html.ValidationMessageFor(model => model.SeatsAvailable, "", new { @class = "text-danger" })
             </div>
         </div>
 
+        @* hide from displaying - "display:none" *@
         <div class="form-group">
-            @Html.LabelFor(model => model.UserID, "UserID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @*@Html.LabelFor(model => model.UserID, "UserID", htmlAttributes: new { @class = "control-label col-md-2" })*@
             <div class="col-md-10">
-                @Html.DropDownList("UserID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("UserID", null, new { @style = "display:none" })
                 @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -132,7 +133,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "UserOffers", "LiftOffers")
 </div>
 
 @section Scripts {

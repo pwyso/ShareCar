@@ -204,6 +204,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -286,7 +287,9 @@
     <Content Include="Views\LiftOffers\Delete.cshtml" />
     <Content Include="Views\LiftOffers\Details.cshtml" />
     <Content Include="Views\LiftOffers\Edit.cshtml" />
-    <Content Include="Views\LiftOffers\Index.cshtml" />
+    <Content Include="Views\LiftOffers\All.cshtml" />
+    <Content Include="Views\LiftOffers\UserOffers.cshtml" />
+    <Content Include="Views\LiftOffers\AnonymDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

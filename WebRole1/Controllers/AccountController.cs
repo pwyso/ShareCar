@@ -149,7 +149,7 @@ namespace ShareCar.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name , Age = model.Age, IsSmoker = model.IsSmoker };
+                var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name , PhoneNumber = model.PhoneNumber, Age = model.Age, IsSmoker = model.IsSmoker };
                 //var user = new User { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

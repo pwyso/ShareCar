@@ -6,7 +6,7 @@ namespace ShareCar.Models
 {
     public class RoleViewModel
     {
-        public string Id { get; set; }
+        public string RoleId { get; set; }
         [Required(AllowEmptyStrings = false)]
         [Display(Name = "Role Name")]
         public string Name { get; set; }
@@ -14,7 +14,7 @@ namespace ShareCar.Models
 
     public class EditUserViewModel
     {
-        public string Id { get; set; }
+        public string UserId { get; set; }
 
         [Required(AllowEmptyStrings = false)]
         [Display(Name = "Email")]

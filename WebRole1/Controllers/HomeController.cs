@@ -1,15 +1,25 @@
 ﻿using System.Web.Mvc;
+using ShareCar.Models;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ShareCar.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        // GET: Home/Index
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var liftOffers = db.LiftOffers;
+            return View(await liftOffers.ToListAsync());
         }
 
-        [Authorize]
         public ActionResult About()
         {
             ViewBag.Message = "Your app description page.";

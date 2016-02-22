@@ -10,10 +10,12 @@ namespace ShareCar.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class User : IdentityUser
     {
+        // added property to IdentityUser class
         public string Name { get; set; }
         public IsSmoking IsSmoker { get; set; }
         public int Age { get; set; }
         public virtual ICollection<LiftOffer> LiftOffers { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -26,14 +28,14 @@ namespace ShareCar.Models
     public class ApplicationDbContext : IdentityDbContext<User>
     {
         // for Azure DB
-        //public ApplicationDbContext() : base("csdb")
-        //{
-        //}
-
-        // for Local DB and Azure Emulator
-        public ApplicationDbContext() : base("DefaultConnection")
+        public ApplicationDbContext() : base("csdb")
         {
         }
+
+        // for Local DB and Azure Emulator
+        //public ApplicationDbContext() : base("DefaultConnection")
+        //{
+        //}
 
         static ApplicationDbContext()
         {
@@ -68,6 +70,6 @@ namespace ShareCar.Models
             modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaim").Property(p => p.UserId).HasColumnName("UserID");
         }
 
-        public System.Data.Entity.DbSet<ShareCar.Models.LiftOffer> LiftOffers { get; set; }
+        public DbSet<LiftOffer> LiftOffers { get; set; }
     }
 }

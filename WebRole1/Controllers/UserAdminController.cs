@@ -138,7 +138,8 @@ namespace ShareCar.Controllers
 
             return View(new EditUserViewModel()
             {
-                Id = user.Id,
+                
+                UserId = user.Id,
                 Email = user.Email,
                 RolesList = RoleManager.Roles.ToList().Select(x => new SelectListItem()
                 {
@@ -157,7 +158,7 @@ namespace ShareCar.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByIdAsync(editUser.Id);
+                var user = await UserManager.FindByIdAsync(editUser.UserId);
                 if (user == null)
                 {
                     return HttpNotFound();

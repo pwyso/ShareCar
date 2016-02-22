@@ -123,7 +123,7 @@ namespace ShareCar.Controllers
             {
                 return HttpNotFound();
             }
-            RoleViewModel roleModel = new RoleViewModel { Id = role.Id, Name = role.Name };
+            RoleViewModel roleModel = new RoleViewModel { RoleId = role.Id, Name = role.Name };
             return View(roleModel);
         }
 
@@ -136,7 +136,7 @@ namespace ShareCar.Controllers
         {
             if (ModelState.IsValid)
             {
-                var role = await RoleManager.FindByIdAsync(roleModel.Id);
+                var role = await RoleManager.FindByIdAsync(roleModel.RoleId);
                 role.Name = roleModel.Name;
                 await RoleManager.UpdateAsync(role);
                 return RedirectToAction("Index");

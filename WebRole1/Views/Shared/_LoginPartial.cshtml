@@ -1,11 +1,19 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using ShareCar.Models
+@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated) {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" })) {
         @Html.AntiForgeryToken()
 
         <ul class="nav navbar-nav navbar-right">
             <li>
-                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                @{
+                    @* find logged-in user and display name in top navig. bar *@
+                    ApplicationDbContext db = new ApplicationDbContext();
+                    var id = User.Identity.GetUserId();
+                    var user = db.Users.Find(id);
+                    var name = user.Name;
+                }
+                @Html.ActionLink("Hello " + name + " !", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>
