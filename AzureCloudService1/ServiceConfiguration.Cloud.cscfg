@@ -3,7 +3,7 @@
   <Role name="ShareCar">
     <Instances count="2" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=mpv1;AccountKey=NMji6hTcLNmhoMizpW/kXvGLdtr5d/z745wY8+XMzjiRI1EFaKceCnwhKSdPALJ8KsF8taPH0uNjX3ApjpFeww==" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>
