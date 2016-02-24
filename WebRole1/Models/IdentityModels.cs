@@ -16,6 +16,7 @@ namespace ShareCar.Models
         public int Age { get; set; }
         public virtual ICollection<LiftOffer> LiftOffers { get; set; }
 
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
