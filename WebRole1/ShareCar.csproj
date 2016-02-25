@@ -75,8 +75,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Diagnostics, Version=2.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-       <HintPath>..\packages\Microsoft.WindowsAzure.Diagnostics\Microsoft.WindowsAzure.Diagnostics.dll</HintPath>
-	<Private>True</Private>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Diagnostics\Microsoft.WindowsAzure.Diagnostics.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <Private>True</Private>
@@ -308,10 +308,10 @@
     <Content Include="Views\LiftOffers\Delete.cshtml" />
     <Content Include="Views\LiftOffers\Details.cshtml" />
     <Content Include="Views\LiftOffers\Edit.cshtml" />
-    <Content Include="Views\LiftOffers\All.cshtml" />
     <Content Include="Views\LiftOffers\UserOffers.cshtml" />
     <Content Include="Views\LiftOffers\AnonymDetails.cshtml" />
     <Content Include="Scripts\jquery-2.2.0.min.map" />
+    <Content Include="Views\LiftOffers\All.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
