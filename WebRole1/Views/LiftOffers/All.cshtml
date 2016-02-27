@@ -7,69 +7,69 @@
 
 <div class="jumbotron">
     <p>
-        @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+        @using (Html.BeginForm("All", "LiftOffers", FormMethod.Get))
         {
         <p>
             Find by City/Town name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
             <input type="submit" value="Search" />
         </p>
         }
-        </p>
-    </div>
-    <div class="col">
-        <h4 style="font-weight:bolder">Available lift offers</h4>
-        <table class="table">
-            <tr>
-                <th>
-                    Name
-                </th>
-                <th>
-                    @Html.ActionLink("From", "All", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
-                </th>
-                <th>
-                    @Html.ActionLink("To", "All", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
-                </th>
-                <th>
-                    Depart. Time
-                </th>
-                <th>
-                    Arriv. Time
-                </th>
-                <th>
-                    Seats Avail.
-                </th>
-                <th></th>
-            </tr>
-            @foreach (var offer in Model)
-            {
-                <tr>
-                    <td>
-                        @{ // find logged-in user to display name
-                            ApplicationDbContext db = new ApplicationDbContext();
-                            var name = db.Users.FirstOrDefault(user => user.Id == offer.UserID);
-                        }
-                        @Html.DisplayFor(model => name.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => offer.StartPointName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => offer.EndPointName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => offer.DepartureHour) : @Html.DisplayFor(model => offer.DepartureMin)
+    </p>
+</div>
+<div class="col">
+    <h4 style="font-weight:bolder">Available lift offers</h4>
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                @Html.ActionLink("From", "All", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("To", "All", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                Depart. Time
+            </th>
+            <th>
+                Arriv. Time
+            </th>
+            <th>
+                Seats Avail.
+            </th>
+            <th></th>
+        </tr>
 
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => offer.ArrivalHour) : @Html.DisplayFor(model => offer.ArrivalMin)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => offer.SeatsAvailable)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Details", "AnonymDetails", new { id = offer.LiftOfferID })
-                    </td>
-                </tr>
-                            }
-        </table>
-    </div>
+        @foreach (var offer in Model)
+        {
+        <tr>
+            <td>
+                @{ // find logged-in user to display name
+                    ApplicationDbContext db = new ApplicationDbContext();
+                    var name = db.Users.FirstOrDefault(user => user.Id == offer.UserID);
+                }
+                @Html.DisplayFor(model => name.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(model => offer.StartPointName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => offer.EndPointName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => offer.DepartureHour) : @Html.DisplayFor(model => offer.DepartureMin)
+            </td>
+            <td>
+                @Html.DisplayFor(model => offer.ArrivalHour) : @Html.DisplayFor(model => offer.ArrivalMin)
+            </td>
+            <td>
+                @Html.DisplayFor(model => offer.SeatsAvailable)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "AnonymDetails", new { id = offer.LiftOfferID })
+            </td>
+        </tr>
+        }
+    </table>
+</div>

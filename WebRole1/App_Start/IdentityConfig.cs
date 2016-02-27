@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web;
+using System.Data.Entity.Migrations;
 
 namespace ShareCar.Models
 {
@@ -100,10 +101,12 @@ namespace ShareCar.Models
         }
     }
 
-    // This is useful if you do not want to tear down the database each time you run the application.
-    // public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
-    // This example shows you how to create a new database if the Model changes
+
+    // Drops and creates Database. Then populates it with sample data
+    // DropCreateDatabaseIfModelChanges or DropCreateDatabaseAlways to changed as needed
+
     public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    //public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {
@@ -116,21 +119,64 @@ namespace ShareCar.Models
             const string userName = "admin@sharecar.org";
             const string userEmail = "admin@sharecar.org";
             const string password = "Pa$$word1";
+            const string phone = "0850101010";
 
             if (!RoleManager.RoleExists(roleName))
             {
                 var roleresult = RoleManager.Create(new IdentityRole(roleName));
             }
 
-            var user = new User { UserName = userName, Email = userEmail, Name = nickName };
+            var user = new User { UserName = userName, Email = userEmail, Name = nickName, PhoneNumber = phone };
             var adminresult = UserManager.Create(user, password);
 
             if (adminresult.Succeeded)
             {
                 var result = UserManager.AddToRole(user.Id, roleName);
             }
-
             base.Seed(context);
+
+            var users = new List<User>
+            {
+                new User { UserName = "margaret@gmail.com", Email = "margaret@gmail.com", EmailConfirmed = true, Name = "Margaret", PhoneNumber = "087111111", Age = 29, IsSmoker = IsSmoking.No },
+                new User { UserName = "adam@gmail.com", Email = "adam@gmail.com", EmailConfirmed = true, Name = "Adam", PhoneNumber = "087234465", Age = 22, IsSmoker = IsSmoking.No },
+                new User { UserName = "lucy@gmail.com", Email = "lucy@gmail.com", EmailConfirmed = true, Name = "Lucy", PhoneNumber = "0868734627", Age = 46, IsSmoker = IsSmoking.No },
+                new User { UserName = "steven@gmail.com", Email = "steven@gmail.com",EmailConfirmed = true, Name = "Steven", PhoneNumber = "0896743368", Age = 33, IsSmoker = IsSmoking.Yes }
+            };
+
+            foreach (var u in users)
+            {
+                UserManager.Create(u, password);
+                base.Seed(context);
+            }
+
+            var offers = new List<LiftOffer>
+            {
+                new LiftOffer { CreateTime = DateTime.Parse("10/02/2016"), StartPointName = "Dublin", EndPointName = "Swords",
+                                StartDate = DateTime.Parse("15/02/2016"), EndDate = DateTime.Parse("31/12/2016"),
+                                DepartureHour = "10", DepartureMin = "00", ArrivalHour = "14", ArrivalMin = "00",
+                                CarMake = "Honda", CarModel = "Accord", SeatsAvailable = 2, UserID = users.Single(s => s.Email == "adam@gmail.com").Id },
+                new LiftOffer { CreateTime = DateTime.Parse("15/02/2016"), StartPointName = "Galway", EndPointName = "Limerick",
+                                StartDate = DateTime.Parse("20/02/2016"), EndDate = DateTime.Parse("31/12/2017"),
+                                DepartureHour = "16", DepartureMin = "15", ArrivalHour = "18", ArrivalMin = "30",
+                                CarMake = "Ford", CarModel = "Mondeo", SeatsAvailable = 3, UserID = users.Single(s => s.Email == "lucy@gmail.com").Id },
+                new LiftOffer { CreateTime = DateTime.Parse("20/02/2016"), StartPointName = "Wexford", EndPointName = "Dublin",
+                                StartDate = DateTime.Parse("20/02/2016"), EndDate = DateTime.Parse("30/10/2016"),
+                                DepartureHour = "09", DepartureMin = "00", ArrivalHour = "09", ArrivalMin = "30",
+                                CarMake = "Toyota", CarModel = "Corolla", SeatsAvailable = 1, UserID = users.Single(s => s.Email == "steven@gmail.com").Id },
+                new LiftOffer { CreateTime = DateTime.Parse("02/02/2016"), StartPointName = "Wexford", EndPointName = "Roslare",
+                                StartDate = DateTime.Parse("25/02/2016"), EndDate = null,
+                                DepartureHour = "06", DepartureMin = "30", ArrivalHour = "08", ArrivalMin = "30",
+                                CarMake = "Toyota", CarModel = "Corolla", SeatsAvailable = 3, UserID = users.Single(s => s.Email == "steven@gmail.com").Id }
+            };
+
+            foreach (LiftOffer off in offers)
+            {
+                var offersForUser = context.LiftOffers.Where(s => s.User.Id == off.UserID
+                                    && s.LiftOfferID == off.LiftOfferID).SingleOrDefault();
+
+                context.LiftOffers.Add(off);
+                context.SaveChanges();
+            }
         }
     }
 

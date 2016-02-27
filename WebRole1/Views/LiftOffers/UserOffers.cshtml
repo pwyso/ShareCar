@@ -40,37 +40,36 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartPointName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndPointName)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.DepartureHour) : @Html.DisplayFor(model => item.DepartureMin)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.ArrivalHour) : @Html.DisplayFor(model => item.ArrivalMin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CarMake)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CarModel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SeatsAvailable)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.LiftOfferID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.LiftOfferID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.LiftOfferID })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartPointName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndPointName)
+        </td>
+        <td>
+            @Html.DisplayFor(model => item.DepartureHour) : @Html.DisplayFor(model => item.DepartureMin)
+        </td>
+        <td>
+            @Html.DisplayFor(model => item.ArrivalHour) : @Html.DisplayFor(model => item.ArrivalMin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CarMake)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CarModel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SeatsAvailable)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.LiftOfferID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.LiftOfferID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.LiftOfferID })
+        </td>
+    </tr>
     }
-
 </table>

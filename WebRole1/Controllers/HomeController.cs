@@ -16,8 +16,18 @@ namespace ShareCar.Controllers
         // GET: Home/Index
         public async Task<ActionResult> Index()
         {
-            var liftOffers = db.LiftOffers;
-            return View(await liftOffers.ToListAsync());
+            int no = db.LiftOffers.Count();
+
+            if ((no >= 0) && (no <= 3))
+            {
+                var liftOffers = db.LiftOffers;
+                return View(await liftOffers.ToListAsync());
+            }
+            else
+            {
+                var liftOffers = db.LiftOffers.OrderByDescending(o => o.LiftOfferID).Take(3);
+                return View(await liftOffers.ToListAsync());
+            }
         }
 
         public ActionResult About()

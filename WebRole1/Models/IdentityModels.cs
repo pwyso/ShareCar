@@ -16,7 +16,6 @@ namespace ShareCar.Models
         public int Age { get; set; }
         public virtual ICollection<LiftOffer> LiftOffers { get; set; }
 
-
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -41,7 +40,7 @@ namespace ShareCar.Models
         static ApplicationDbContext()
         {
             // Set the database intializer which is run once during application start
-            // This seeds the database with admin user credentials and admin role
+            // This seeds the database with admin user, admin role, users and lift offers
             Database.SetInitializer<ApplicationDbContext>(new ApplicationDbInitializer());
         }
 

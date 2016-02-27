@@ -3,24 +3,14 @@
 @{
     ViewBag.Title = "Edit";
 }
-@{
-    List<SelectListItem> hour = new List<SelectListItem>();  // create 24 hours for dropdown list
-    for (int i = 1; i <= 23; i++)
-    {
-        hour.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
-    }
-}
-@{
 
-    List<SelectListItem> minute = new List<SelectListItem>();  // create 15 min quarters for dropdown list
-    for (int i = 0; i <= 3; i++)
-    {
-        int j = 0;
-        j = i * 15;
-
-        minute.Add(new SelectListItem { Text = j.ToString(), Value = j.ToString() });
-    }
+@{ SelectList listHours = new SelectList(new[] {
+       "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11",
+       "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" });
+    SelectList listMinutes = new SelectList(new[] {
+       "00", "15", "30", "45"});
 }
+
 @{
     List<SelectListItem> seatsNo = new List<SelectListItem>();  // create 24 hours for dropdown list
     for (int i = 1; i <= 20; i++)
@@ -29,7 +19,6 @@
     }
 }
 <h2>Edit</h2>
-
 
 @using (Html.BeginForm())
 {
@@ -76,9 +65,9 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DepartureHour, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.DepartureHour, hour, "-hour-")
+                @Html.DropDownListFor(model => model.DepartureHour, listHours, "-hour-")
                 @Html.ValidationMessageFor(model => model.DepartureHour, "", new { @class = "text-danger" })
-                @Html.DropDownListFor(model => model.DepartureMin, minute, "-min-")
+                @Html.DropDownListFor(model => model.DepartureMin, listMinutes, "-min-")
                 @Html.ValidationMessageFor(model => model.DepartureMin, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -86,9 +75,9 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ArrivalHour, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ArrivalHour, hour, "-hour-")
+                @Html.DropDownListFor(model => model.ArrivalHour, listHours, "-hour-")
                 @Html.ValidationMessageFor(model => model.ArrivalHour, "", new { @class = "text-danger" })
-                @Html.DropDownListFor(model => model.ArrivalMin, minute, "-min-")
+                @Html.DropDownListFor(model => model.ArrivalMin, listMinutes, "-min-")
                 @Html.ValidationMessageFor(model => model.ArrivalMin, "", new { @class = "text-danger" })
             </div>
         </div>

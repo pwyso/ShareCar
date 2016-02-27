@@ -40,7 +40,7 @@ namespace ShareCar.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                offers = offers.Where(o => o.EndPointName == searchString);
+                offers = offers.Where(o => o.StartPointName == searchString);
             }
             switch (sortOrder)
             {
@@ -114,14 +114,17 @@ namespace ShareCar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "LiftOfferID,StartDate,EndDate,DepartureHour,DepartureMin,ArrivalHour,ArrivalMin,StartPointName,EndPointName,CarMake,CarModel,SeatsAvailable,UserID")] LiftOffer liftOffer)
+        public async Task<ActionResult> Create([Bind(Include = "LiftOfferID,CreateTime,StartDate,EndDate,DepartureHour,DepartureMin,ArrivalHour,ArrivalMin,StartPointName,EndPointName,CarMake,CarModel,SeatsAvailable,UserID")] LiftOffer liftOffer)
         {
+            var currentUser = User.Identity.GetUserId();
+            liftOffer.UserID = currentUser;
             if (ModelState.IsValid)
             {
                 db.LiftOffers.Add(liftOffer);
                 await db.SaveChangesAsync();
                 return RedirectToAction("UserOffers");
             }
+
 
             ViewBag.UserID = new SelectList(db.Users, "Id", "Name", liftOffer.UserID);
             return View(liftOffer);

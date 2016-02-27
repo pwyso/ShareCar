@@ -13,6 +13,9 @@ namespace ShareCar.Models
         [Key]
         public int LiftOfferID { get; set; }
 
+        [Display(Name = "Created")]
+        public DateTime CreateTime { get { return DateTime.Now; } set { } }
+
         [Required]
         [Display(Name = "From"), StringLength(50, ErrorMessage = "Max. 50 characters allowed.")]
         public string StartPointName { get; set; }
@@ -34,17 +37,17 @@ namespace ShareCar.Models
 
         [Required]
         [Display(Name = "Depart. Time")]
-        public int DepartureHour { get; set; }
+        public string DepartureHour { get; set; }
 
         [Required]
-        public int DepartureMin { get; set; }
+        public string DepartureMin { get; set; }
 
         [Required]
         [Display(Name = "Arriv. Time")]
-        public int ArrivalHour { get; set; }
+        public string ArrivalHour { get; set; }
 
         [Required]
-        public int ArrivalMin { get; set; }
+        public string ArrivalMin { get; set; }
 
         [Required]
         [Display(Name = "Car Make"), StringLength(20, ErrorMessage = "Max. 20 characters allowed.")]
