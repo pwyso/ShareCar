@@ -105,8 +105,8 @@ namespace ShareCar.Models
     // Drops and creates Database. Then populates it with sample data
     // DropCreateDatabaseIfModelChanges or DropCreateDatabaseAlways to changed as needed
 
-    public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
-    //public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    //public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {
