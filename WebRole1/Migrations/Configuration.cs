@@ -10,6 +10,7 @@ namespace WebRole1.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            ContextKey = "ShareCar.Models.ApplicationDbContext";
         }
 
         protected override void Seed(ShareCar.Models.ApplicationDbContext context)
