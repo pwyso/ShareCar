@@ -101,7 +101,6 @@ namespace ShareCar.Models
         }
     }
 
-
     // Drops and creates Database. Then populates it with sample data
     // DropCreateDatabaseIfModelChanges or DropCreateDatabaseAlways to changed as needed
 
