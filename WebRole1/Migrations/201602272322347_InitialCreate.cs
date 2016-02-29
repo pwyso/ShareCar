@@ -1,4 +1,4 @@
-namespace WebRole1.Migrations
+namespace ShareCar.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;

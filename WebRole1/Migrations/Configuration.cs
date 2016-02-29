@@ -1,4 +1,4 @@
-namespace WebRole1.Migrations
+namespace ShareCar.Migrations
 {
     using System;
     using System.Data.Entity;
@@ -9,7 +9,7 @@ namespace WebRole1.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             ContextKey = "ShareCar.Models.ApplicationDbContext";
         }
 

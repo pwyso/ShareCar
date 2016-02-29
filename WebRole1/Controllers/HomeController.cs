@@ -16,16 +16,15 @@ namespace ShareCar.Controllers
         // GET: Home/Index
         public async Task<ActionResult> Index()
         {
-            int no = db.LiftOffers.Count();
+            var liftOffers = db.LiftOffers.OrderByDescending(o => o.LiftOfferID);
+            int no = await liftOffers.CountAsync();
 
-            if ((no >= 0) && (no <= 3))
+            if (no > 3)
             {
-                var liftOffers = db.LiftOffers;
-                return View(await liftOffers.ToListAsync());
+                return View(await liftOffers.Take(3).ToListAsync());
             }
             else
             {
-                var liftOffers = db.LiftOffers.OrderByDescending(o => o.LiftOfferID).Take(3);
                 return View(await liftOffers.ToListAsync());
             }
         }
@@ -33,14 +32,12 @@ namespace ShareCar.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your app description page.";
-
             return View();
         }
 
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }

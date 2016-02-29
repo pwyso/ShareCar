@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - ShareCar</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/jqueryui")
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
@@ -35,8 +36,8 @@
                     @* menu displayed for Admin users only *@
                     @if (Request.IsAuthenticated && User.IsInRole("Admin"))
                     {
-                        <li>@Html.ActionLink("RolesAdmin", "Index", "RolesAdmin")</li>
-                        <li>@Html.ActionLink("UsersAdmin", "Index", "UsersAdmin")</li>
+                        <li>@Html.ActionLink("Manage Roles", "Index", "RolesAdmin")</li>
+                        <li>@Html.ActionLink("Manage Users", "Index", "UsersAdmin")</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")
@@ -53,6 +54,21 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryui")
+    <script>
+    $(function () {
+        $(".jqueryui-marker-datepicker").datepicker({
+            dateFormat: "dd/mm/yy",
+            changeYear: true,
+            showOn: "button"
+            }).css("display", "inline-block")
+            .next("button").button({
+                icons: { primary: "ui-icon-calendar"},
+                label: "Select a date",
+                text: false
+            });
+        });
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

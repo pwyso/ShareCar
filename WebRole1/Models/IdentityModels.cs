@@ -14,7 +14,10 @@ namespace ShareCar.Models
         public string Name { get; set; }
         public IsSmoking IsSmoker { get; set; }
         public int Age { get; set; }
+
         public virtual ICollection<LiftOffer> LiftOffers { get; set; }
+
+        //public virtual ICollection<Feedback> Feedbacks { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
@@ -27,15 +30,10 @@ namespace ShareCar.Models
 
     public class ApplicationDbContext : IdentityDbContext<User>
     {
-        // for Azure DB
+        // for Azure and Local DB
         public ApplicationDbContext() : base("csdb")
         {
         }
-
-        // for Local DB and Azure Emulator
-        //public ApplicationDbContext() : base("DefaultConnection")
-        //{
-        //}
 
         static ApplicationDbContext()
         {
@@ -71,5 +69,7 @@ namespace ShareCar.Models
         }
 
         public DbSet<LiftOffer> LiftOffers { get; set; }
+
+        //public DbSet<Feedback> Feedbacks { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace ShareCar.Models
         [Required]
         [Display(Name = "Valid From")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime StartDate { get; set; }
 
         [Display(Name = "Valid To")]
@@ -60,6 +60,8 @@ namespace ShareCar.Models
         [Required]
         [Display(Name = "Seats Avail."), Range(1,20, ErrorMessage = "Max no. of seats is 20.")]
         public int SeatsAvailable { get; set; }
+
+
 
         // FK of User Table
         [ForeignKey("User")]
