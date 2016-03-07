@@ -14,10 +14,13 @@ namespace ShareCar.Models
         public string Name { get; set; }
         public IsSmoking IsSmoker { get; set; }
         public int Age { get; set; }
+        public double? RatingAvg { get; set; }
 
+        // Foreign Key of LiftOffers class/table
         public virtual ICollection<LiftOffer> LiftOffers { get; set; }
 
-        //public virtual ICollection<Feedback> Feedbacks { get; set; }
+        // Foreign Key of Feedbacks class/table
+        public virtual ICollection<Feedback> Feedbacks { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
@@ -70,6 +73,6 @@ namespace ShareCar.Models
 
         public DbSet<LiftOffer> LiftOffers { get; set; }
 
-        //public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
     }
 }

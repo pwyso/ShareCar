@@ -16,11 +16,13 @@ namespace ShareCar.Controllers
         // GET: Home/Index
         public async Task<ActionResult> Index()
         {
+            // gets all lift offers and orders them by descending
             var liftOffers = db.LiftOffers.OrderByDescending(o => o.LiftOfferID);
             int no = await liftOffers.CountAsync();
 
             if (no > 3)
             {
+                // returns 3 most recent offers if more
                 return View(await liftOffers.Take(3).ToListAsync());
             }
             else

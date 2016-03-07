@@ -1,5 +1,4 @@
-﻿
-@model IEnumerable<ShareCar.Models.LiftOffer>
+﻿@model IEnumerable<ShareCar.Models.LiftOffer>
 @{
     ViewBag.Title = "Home Page";
 }
@@ -19,6 +18,9 @@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.User.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User.RatingAvg)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.StartPointName)
@@ -43,12 +45,14 @@
             </th>
             <th></th>
         </tr>
-
         @foreach (var item in Model)
         {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.User.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.RatingAvg)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.StartPointName)

@@ -205,6 +205,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FeedbacksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LiftOffersController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -217,9 +218,26 @@
     <Compile Include="Migrations\201602272322347_InitialCreate.Designer.cs">
       <DependentUpon>201602272322347_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603011516112_FeedbackAdded.cs" />
+    <Compile Include="Migrations\201603011516112_FeedbackAdded.Designer.cs">
+      <DependentUpon>201603011516112_FeedbackAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603021508031_AddedRatingTotal.cs" />
+    <Compile Include="Migrations\201603021508031_AddedRatingTotal.Designer.cs">
+      <DependentUpon>201603021508031_AddedRatingTotal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603021514339_RatingAvgToNullable.cs" />
+    <Compile Include="Migrations\201603021514339_RatingAvgToNullable.Designer.cs">
+      <DependentUpon>201603021514339_RatingAvgToNullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603032039076_AddedIsReported.cs" />
+    <Compile Include="Migrations\201603032039076_AddedIsReported.Designer.cs">
+      <DependentUpon>201603032039076_AddedIsReported.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
+    <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LiftOffer.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -352,6 +370,14 @@
     <Content Include="Scripts\jquery-2.2.0.min.map" />
     <Content Include="Views\LiftOffers\All.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
+    <Content Include="Views\Feedbacks\All.cshtml" />
+    <Content Include="Views\Feedbacks\Create.cshtml" />
+    <Content Include="Views\Feedbacks\Delete.cshtml" />
+    <Content Include="Views\Feedbacks\Edit.cshtml" />
+    <Content Include="Views\Feedbacks\FeedbacksReceived.cshtml" />
+    <Content Include="Views\Feedbacks\ConfirmRepFeedback.cshtml" />
+    <Content Include="Views\Feedbacks\FeedbacksReported.cshtml" />
+    <Content Include="Views\Feedbacks\AllAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -366,6 +392,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201602272322347_InitialCreate.resx">
       <DependentUpon>201602272322347_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603011516112_FeedbackAdded.resx">
+      <DependentUpon>201603011516112_FeedbackAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603021508031_AddedRatingTotal.resx">
+      <DependentUpon>201603021508031_AddedRatingTotal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603021514339_RatingAvgToNullable.resx">
+      <DependentUpon>201603021514339_RatingAvgToNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603032039076_AddedIsReported.resx">
+      <DependentUpon>201603032039076_AddedIsReported.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

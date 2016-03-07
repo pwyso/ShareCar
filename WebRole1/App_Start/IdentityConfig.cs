@@ -104,8 +104,8 @@ namespace ShareCar.Models
     // Drops and creates Database. Then populates it with sample data
     // DropCreateDatabaseIfModelChanges or DropCreateDatabaseAlways to changed as needed
 
-    //public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
-    public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    //public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {
@@ -136,10 +136,10 @@ namespace ShareCar.Models
 
             var users = new List<User>
             {
-                new User { UserName = "margaret@gmail.com", Email = "margaret@gmail.com", EmailConfirmed = true, Name = "Margaret", PhoneNumber = "087111111", Age = 29, IsSmoker = IsSmoking.No },
-                new User { UserName = "adam@gmail.com", Email = "adam@gmail.com", EmailConfirmed = true, Name = "Adam", PhoneNumber = "087234465", Age = 22, IsSmoker = IsSmoking.No },
-                new User { UserName = "lucy@gmail.com", Email = "lucy@gmail.com", EmailConfirmed = true, Name = "Lucy", PhoneNumber = "0868734627", Age = 46, IsSmoker = IsSmoking.No },
-                new User { UserName = "steven@gmail.com", Email = "steven@gmail.com",EmailConfirmed = true, Name = "Steven", PhoneNumber = "0896743368", Age = 33, IsSmoker = IsSmoking.Yes }
+                new User { UserName = "margaret@gmail.com", Email = "margaret@gmail.com", EmailConfirmed = true, Name = "Margaret", PhoneNumber = "087111111", Age = 29, IsSmoker = IsSmoking.No, RatingAvg = null },
+                new User { UserName = "adam@gmail.com", Email = "adam@gmail.com", EmailConfirmed = true, Name = "Adam", PhoneNumber = "087234465", Age = 22, IsSmoker = IsSmoking.No, RatingAvg = null },
+                new User { UserName = "lucy@gmail.com", Email = "lucy@gmail.com", EmailConfirmed = true, Name = "Lucy", PhoneNumber = "0868734627", Age = 46, IsSmoker = IsSmoking.No, RatingAvg = null },
+                new User { UserName = "steven@gmail.com", Email = "steven@gmail.com",EmailConfirmed = true, Name = "Steven", PhoneNumber = "0896743368", Age = 33, IsSmoker = IsSmoking.Yes, RatingAvg = null }
             };
 
             foreach (var u in users)

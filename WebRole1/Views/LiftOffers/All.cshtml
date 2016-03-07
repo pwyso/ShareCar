@@ -24,6 +24,9 @@
                 Name
             </th>
             <th>
+                Rating
+            </th>
+            <th>
                 @Html.ActionLink("From", "All", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
             </th>
             <th>
@@ -50,6 +53,9 @@
                     var name = db.Users.FirstOrDefault(user => user.Id == offer.UserID);
                 }
                 @Html.DisplayFor(model => name.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(model => name.RatingAvg)
             </td>
             <td>
                 @Html.DisplayFor(model => offer.StartPointName)

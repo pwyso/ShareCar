@@ -1,0 +1,50 @@
+﻿@using ShareCar.Models
+@model IEnumerable<ShareCar.Models.Feedback>
+
+@{
+    ViewBag.Title = "Feedbacks";
+}
+
+<h2>All Feedbacks</h2>
+
+<div class="col">
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Rating
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Left By
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var feedback in Model)
+        {
+            <tr>
+                <td>
+                    @{ // find logged-in user to display name
+                        ApplicationDbContext db = new ApplicationDbContext();
+                        var name = db.Users.FirstOrDefault(user => user.Id == feedback.UserID);
+                    }
+                    @Html.DisplayFor(model => name.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => feedback.RatingValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => feedback.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => feedback.LeftBy)
+                </td>
+            </tr>
+       }
+    </table>
+</div>

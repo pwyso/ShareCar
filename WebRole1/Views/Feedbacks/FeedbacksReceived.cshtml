@@ -1,0 +1,43 @@
+﻿
+@model IEnumerable<ShareCar.Models.Feedback>
+
+@{
+    ViewBag.Title = "Feedbacks";
+}
+
+<h2>Received Feedbacks</h2>
+
+<div class="col">
+    <table class="table">
+        <tr>
+            <th>
+                Rating
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Left By
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var feedback in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => feedback.RatingValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => feedback.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => feedback.LeftBy)
+                </td>
+                <td>
+                    @Html.ActionLink("Report", "ReportFeedback", new { id = feedback.FeedbackID })
+                </td>
+            </tr>
+        }
+    </table>
+</div>

@@ -22,7 +22,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Lift Offers", "All", "LiftOffers")</li>
+                    <li><span class="glyphicon glyphicon-home" style="color:aliceblue"></span>@Html.ActionLink("Lift Offers", "All", "LiftOffers")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
 
@@ -30,15 +30,33 @@
                     @if (Request.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("My Offers", "UserOffers", "LiftOffers")</li>
-                        <li>@Html.ActionLink("Feedback", "Create", "Feedbacks")</li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Feedback<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Leave", "Create", "Feedbacks")</li>
+                                <li>@Html.ActionLink("Received", "FeedbacksReceived", "Feedbacks")</li>
+                            </ul>
+                        </li>
                     }
 
                     @* menu displayed for Admin users only *@
                     @if (Request.IsAuthenticated && User.IsInRole("Admin"))
                     {
-                        <li>@Html.ActionLink("Manage Roles", "Index", "RolesAdmin")</li>
-                        <li>@Html.ActionLink("Manage Users", "Index", "UsersAdmin")</li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Manage<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Feedbacks All", "AllAdmin", "Feedbacks")</li>
+                                <li>@Html.ActionLink("Feedbacks Reported", "FeedbacksReported", "Feedbacks")</li>
+                                <li>@Html.ActionLink("Roles", "Index", "RolesAdmin")</li>
+                                <li>@Html.ActionLink("Users", "Index", "UsersAdmin")</li>
+                            </ul>
+                        </li>
                     }
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -58,7 +76,7 @@
     <script>
     $(function () {
         $(".jqueryui-marker-datepicker").datepicker({
-            dateFormat: "dd/mm/yy",
+            dateFormat: "yy/mm/dd",
             changeYear: true,
             showOn: "button"
             }).css("display", "inline-block")

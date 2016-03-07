@@ -14,8 +14,8 @@
 }
 
 @{
-    List<SelectListItem> seatsNo = new List<SelectListItem>();  // create 24 hours for dropdown list
-    for (int i = 1; i <= 20; i++)
+    List<SelectListItem> seatsNo = new List<SelectListItem>();  // create 10 seats numbers for dropdown list
+    for (int i = 1; i <= 10; i++)
     {
         seatsNo.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
     }
@@ -53,14 +53,6 @@
                 @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
