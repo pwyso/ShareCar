@@ -234,9 +234,19 @@
     <Compile Include="Migrations\201603032039076_AddedIsReported.Designer.cs">
       <DependentUpon>201603032039076_AddedIsReported.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603211641052_DayAdded.cs" />
+    <Compile Include="Migrations\201603211641052_DayAdded.Designer.cs">
+      <DependentUpon>201603211641052_DayAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603211651481_DayRemovedOfferID.cs" />
+    <Compile Include="Migrations\201603211651481_DayRemovedOfferID.Designer.cs">
+      <DependentUpon>201603211651481_DayRemovedOfferID.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
+    <Compile Include="Models\Day.cs" />
+    <Compile Include="Models\DayModel.cs" />
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LiftOffer.cs" />
@@ -404,6 +414,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603032039076_AddedIsReported.resx">
       <DependentUpon>201603032039076_AddedIsReported.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603211641052_DayAdded.resx">
+      <DependentUpon>201603211641052_DayAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603211651481_DayRemovedOfferID.resx">
+      <DependentUpon>201603211651481_DayRemovedOfferID.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

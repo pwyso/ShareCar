@@ -83,6 +83,9 @@ namespace ShareCar.Controllers
             {
                 return HttpNotFound();
             }
+            // Get names of selected days only to display in LiftOffer details
+            var selectedDays = db.Days.Where(d => d.LiftOfferID == id && d.Selected == true).Select(d => d.DayName).ToList();
+            ViewBag.SelectedDays = selectedDays;
             return View(liftOffer);
         }
 
@@ -99,14 +102,19 @@ namespace ShareCar.Controllers
             {
                 return HttpNotFound();
             }
+            // Get names of selected days only to display in LiftOffer details
+            var selectedDays = db.Days.Where(d => d.LiftOfferID == id && d.Selected == true).Select(d => d.DayName).ToList();
+            ViewBag.SelectedDays = selectedDays;
             return View(liftOffer);
         }
 
         // GET: LiftOffers/Create
         public ActionResult Create()
         {
-            ViewBag.UserID = new SelectList(db.Users, "Id", "Name");
-            return View();
+            //ViewBag.UserID = new SelectList(db.Users, "Id", "Name");
+            var offer = new LiftOffer();
+            offer.Days = DayRepository.GetAll().ToList();
+            return View(offer);
         }
 
         // POST: LiftOffers/Create
@@ -114,19 +122,47 @@ namespace ShareCar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "LiftOfferID,CreateTime,StartDate,EndDate,DepartureHour,DepartureMin,ArrivalHour,ArrivalMin,StartPointName,EndPointName,CarMake,CarModel,SeatsAvailable,UserID")] LiftOffer liftOffer)
+        public async Task<ActionResult> Create([Bind(Include =
+            "LiftOfferID,StartDate,EndDate,DepartureHour,DepartureMin,ArrivalHour,ArrivalMin,StartPointName,EndPointName,CarMake,CarModel,SeatsAvailable,UserID")]
+                LiftOffer liftOffer, List<Day> days)
         {
-            var currentUser = User.Identity.GetUserId();
-            liftOffer.UserID = currentUser;
+            // Get UserID of current logged-in user
+            liftOffer.UserID = User.Identity.GetUserId();
             if (ModelState.IsValid)
             {
                 db.LiftOffers.Add(liftOffer);
                 await db.SaveChangesAsync();
+
+                foreach (Day d in days)
+                {
+                    d.LiftOfferID = liftOffer.LiftOfferID;
+                    db.Days.Add(d);
+                    await db.SaveChangesAsync();
+                }
                 return RedirectToAction("UserOffers");
             }
 
+            //public async Task<ActionResult> Create(LiftOffer liftOffer)
+            //{
+            //    // Get UserID of current logged-in user
+            //    liftOffer.UserID = User.Identity.GetUserId();
+            //    if (ModelState.IsValid)
+            //    {
+            //        db.LiftOffers.Add(liftOffer);
+            //        await db.SaveChangesAsync();
 
-            ViewBag.UserID = new SelectList(db.Users, "Id", "Name", liftOffer.UserID);
+            //        var days = liftOffer.Days.ToList();
+            //        foreach (Day d in days)
+            //        {
+            //            d.LiftOfferID = liftOffer.LiftOfferID;
+            //            db.Days.Add(d);
+            //            await db.SaveChangesAsync();
+            //        }
+            //        return RedirectToAction("UserOffers");
+            //    }
+
+
+            //ViewBag.UserID = new SelectList(db.Users, "Id", "Name", liftOffer.UserID);
             return View(liftOffer);
         }
 
@@ -142,6 +178,7 @@ namespace ShareCar.Controllers
             {
                 return HttpNotFound();
             }
+            liftOffer.Days = await db.Days.Where(d => d.LiftOfferID == id).ToListAsync();
             ViewBag.UserID = new SelectList(db.Users, "Id", "Name", liftOffer.UserID);
             return View(liftOffer);
         }
@@ -151,17 +188,44 @@ namespace ShareCar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "LiftOfferID,StartDate,EndDate,DepartureHour,DepartureMin,ArrivalHour,ArrivalMin,StartPointName,EndPointName,CarMake,CarModel,SeatsAvailable,UserID")] LiftOffer liftOffer)
+        public async Task<ActionResult> Edit([Bind(Include = 
+            "LiftOfferID,StartDate,EndDate,DepartureHour,DepartureMin,ArrivalHour,ArrivalMin,StartPointName,EndPointName,CarMake,CarModel,SeatsAvailable,UserID")]
+                LiftOffer liftOffer, List<Day> days)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(liftOffer).State = EntityState.Modified;
                 await db.SaveChangesAsync();
+
+                foreach (Day d in days)
+                {
+                    d.LiftOfferID = liftOffer.LiftOfferID;
+                    db.Entry(d).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+                }
                 return RedirectToAction("UserOffers");
             }
-            ViewBag.UserID = new SelectList(db.Users, "Id", "Name", liftOffer.UserID);
             return View(liftOffer);
         }
+
+        //public async Task<ActionResult> Edit(LiftOffer liftOffer)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(liftOffer).State = EntityState.Modified;
+        //        await db.SaveChangesAsync();
+
+        //        var days = liftOffer.Days.ToList();
+        //        foreach (Day d in days)
+        //        {
+        //            d.LiftOfferID = liftOffer.LiftOfferID;
+        //            db.Entry(d).State = EntityState.Modified;
+        //            db.SaveChanges();
+        //        }
+        //        return RedirectToAction("UserOffers");
+        //    }
+        //    return View(liftOffer);
+        //}
 
         // GET: LiftOffers/Delete/5
         public async Task<ActionResult> Delete(int? id)

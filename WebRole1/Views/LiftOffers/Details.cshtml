@@ -51,22 +51,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.DepartureHour)
         </dt>
 
@@ -107,8 +91,37 @@
             @Html.DisplayFor(model => model.SeatsAvailable)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+        <dt>
+            <label>Valid Every:</label>
+        </dt>
+
+        <dd>
+            @{
+                foreach (var day in ViewBag.SelectedDays)
+                {
+                    <span>@day &nbsp;</span>
+                }
+            }
+        </dd>
     </dl>
 </div>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.LiftOfferID }) |
     @Html.ActionLink("Back to List", "UserOffers", "LiftOffers")

@@ -62,10 +62,16 @@ namespace ShareCar.Models
         public int SeatsAvailable { get; set; }
 
 
-
         // FK of User Table
         [ForeignKey("User")]
         public string UserID { get; set; }
-        public virtual User User { get; set; }
+
+        // NotMapped - exclude from creating entities and relationships in tables.
+        // No need of creating Day and DayModel tables as DayRepository (static class) is used with list of days
+        [NotMapped]
+        public List<Day> Days { get; set; }
+
+        [NotMapped]
+        public virtual DayModel DayModel { get; set; }
     }
 }

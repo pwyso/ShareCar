@@ -72,7 +72,7 @@ namespace ShareCar.Models
         }
 
         public DbSet<LiftOffer> LiftOffers { get; set; }
-
         public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<Day> Days { get; set; }
     }
 }
