@@ -13,7 +13,7 @@
                     var user = db.Users.Find(id);
                     var name = user.Name;
                 }
-                @Html.ActionLink("Hello " + name + " !", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                @Html.ActionLink(" Hello " + name + " !", "Index", "Manage", null, new { @class = "glyphicon glyphicon-user ", @title = "Manage profile" })
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>

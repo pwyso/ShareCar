@@ -34,7 +34,6 @@ namespace ShareCar.Controllers
             }
         }
 
-        //
         // GET: /Account/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
@@ -58,7 +57,6 @@ namespace ShareCar.Controllers
             return View(model);
         }
 
-        //
         // GET: /Account/RemoveLogin
         public ActionResult RemoveLogin()
         {
@@ -67,7 +65,6 @@ namespace ShareCar.Controllers
             return View(linkedAccounts);
         }
 
-        //
         // POST: /Manage/RemoveLogin
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -91,14 +88,12 @@ namespace ShareCar.Controllers
             return RedirectToAction("ManageLogins", new { Message = message });
         }
 
-        //
         // GET: /Account/AddPhoneNumber
         public ActionResult AddPhoneNumber()
         {
             return View();
         }
 
-        //
         // POST: /Account/AddPhoneNumber
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -122,7 +117,6 @@ namespace ShareCar.Controllers
             return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
         }
 
-        //
         // POST: /Manage/RememberBrowser
         [HttpPost]
         public ActionResult RememberBrowser()
@@ -132,7 +126,6 @@ namespace ShareCar.Controllers
             return RedirectToAction("Index", "Manage");
         }
 
-        //
         // POST: /Manage/ForgetBrowser
         [HttpPost]
         public ActionResult ForgetBrowser()
@@ -141,7 +134,6 @@ namespace ShareCar.Controllers
             return RedirectToAction("Index", "Manage");
         }
 
-        //
         // POST: /Manage/EnableTFA
         [HttpPost]
         public async Task<ActionResult> EnableTFA()
@@ -155,7 +147,6 @@ namespace ShareCar.Controllers
             return RedirectToAction("Index", "Manage");
         }
 
-        //
         // POST: /Manage/DisableTFA
         [HttpPost]
         public async Task<ActionResult> DisableTFA()
@@ -169,7 +160,6 @@ namespace ShareCar.Controllers
             return RedirectToAction("Index", "Manage");
         }
 
-        //
         // GET: /Account/VerifyPhoneNumber
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {
@@ -180,7 +170,6 @@ namespace ShareCar.Controllers
             return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
 
-        //
         // POST: /Account/VerifyPhoneNumber
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -205,7 +194,6 @@ namespace ShareCar.Controllers
             return View(model);
         }
 
-        //
         // GET: /Account/RemovePhoneNumber
         public async Task<ActionResult> RemovePhoneNumber()
         {
@@ -222,14 +210,12 @@ namespace ShareCar.Controllers
             return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
         }
 
-        //
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
             return View();
         }
 
-        //
         // POST: /Account/Manage
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -253,14 +239,12 @@ namespace ShareCar.Controllers
             return View(model);
         }
 
-        //
         // GET: /Manage/SetPassword
         public ActionResult SetPassword()
         {
             return View();
         }
 
-        //
         // POST: /Manage/SetPassword
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -285,7 +269,6 @@ namespace ShareCar.Controllers
             return View(model);
         }
 
-        //
         // GET: /Account/Manage
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
@@ -308,7 +291,6 @@ namespace ShareCar.Controllers
             });
         }
 
-        //
         // POST: /Manage/LinkLogin
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -318,7 +300,6 @@ namespace ShareCar.Controllers
             return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
         }
 
-        //
         // GET: /Manage/LinkLoginCallback
         public async Task<ActionResult> LinkLoginCallback()
         {

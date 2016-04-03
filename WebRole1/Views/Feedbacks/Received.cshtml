@@ -1,23 +1,22 @@
-﻿
-@model IEnumerable<ShareCar.Models.Feedback>
+﻿@model IEnumerable<ShareCar.Models.Feedback>
 
 @{
-    ViewBag.Title = "Feedbacks";
+    ViewBag.Title = "Feedbacks Received";
 }
 
-<h2>Received Feedbacks</h2>
+<h2>Received feedbacks</h2>
 
 <div class="col">
     <table class="table">
         <tr>
             <th>
-                Rating
+                @Html.DisplayNameFor(model => model.RatingValue)
             </th>
             <th>
-                Description
+                @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                Left By
+                @Html.DisplayNameFor(model => model.LeftBy)
             </th>
             <th></th>
         </tr>

@@ -1,0 +1,96 @@
+﻿@model IEnumerable<ShareCar.Models.BookingDetailsModel>
+
+@{
+    ViewBag.Title = "Seat Bookings";
+}
+
+<h2>My bookings</h2>
+<p>Note: Declined seat bookings are removed from the list.</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SeatBooking.IsAccepted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SeatBooking.SeatsRequest)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LiftOffer.SeatsAvailable)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LiftOffer.StartPointName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LiftOffer.EndPointName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LiftOffer.DepartureHour)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LiftOffer.ArrivalHour)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.Age)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.IsSmoker)
+        </th>
+        <th>
+            @Html.Label("", "Phone No.", htmlAttributes: new { @class = "control-label" })
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <!-- displays Yes/No instead of check box -->
+                @Html.Raw((item.SeatBooking.IsAccepted) ? "Accepted" : "Awaiting") 
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.SeatBooking.SeatsRequest)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.LiftOffer.SeatsAvailable)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.LiftOffer.StartPointName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.LiftOffer.EndPointName)
+            </td>
+            <td>
+                @Html.DisplayFor(
+                model => item.LiftOffer.DepartureHour):@Html.DisplayFor(model => item.LiftOffer.DepartureMin)
+            </td>
+            <td>
+                @Html.DisplayFor(
+                model => item.LiftOffer.ArrivalHour):@Html.DisplayFor(model => item.LiftOffer.ArrivalMin)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.User.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.User.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.User.IsSmoker)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.User.PhoneNumber)
+            </td>
+            <!-- display link for accepted offers only -->
+            @if (item.SeatBooking.IsAccepted == true)
+            {
+                TempData["Role"] = "Offerer";
+                <td>
+                    @Html.ActionLink("Feedback", "Create", "Feedbacks", new { id = item.User.Id }, null)
+                </td>
+            }
+        </tr>
+    }
+</table>

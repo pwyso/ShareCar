@@ -1,0 +1,86 @@
+﻿@model ShareCar.Models.BookingDetailsModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete ?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SeatBooking.SeatsRequest)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SeatBooking.SeatsRequest)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Age)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.Age)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.IsSmoker)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.IsSmoker)
+        </dd>
+        <dt>
+            @Html.Label("", "Phone No.", htmlAttributes: new { @class = "control-label" })
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.PhoneNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LiftOffer.SeatsAvailable)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LiftOffer.SeatsAvailable)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LiftOffer.StartPointName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LiftOffer.StartPointName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LiftOffer.EndPointName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LiftOffer.EndPointName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LiftOffer.DepartureHour)
+        </dt>
+        <dd>
+            @Html.DisplayFor(
+            model => model.LiftOffer.DepartureHour):@Html.DisplayFor(model => model.LiftOffer.DepartureMin)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LiftOffer.ArrivalHour)
+        </dt>
+        <dd>
+            @Html.DisplayFor(
+            model => model.LiftOffer.ArrivalHour):@Html.DisplayFor(model => model.LiftOffer.ArrivalMin)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            @Html.ActionLink("Back to List", "Received", "SeatBookings") |
+            <input type="submit" value="Delete" class="btn btn-default" />
+        </div>
+    }
+</div>

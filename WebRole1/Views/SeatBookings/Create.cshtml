@@ -1,23 +1,17 @@
 ﻿@using ShareCar.Models
+@using Microsoft.AspNet.Identity
 @model ShareCar.Models.LiftOffer
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Book Seat</h2>
 
 <div>
-    <h4>Lift Offer</h4>
+    <h4>for selected Lift Offer</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CreateTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreateTime)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.StartPointName)
@@ -86,19 +80,19 @@
             @Html.DisplayFor(model => model.StartDate)
         </dd>
 
-        <dt>   <!-- EndDate displayed if provided -->
-            @if (Model.EndDate != null)
+        <dt>
+            @if (Model.EndDate != null) // Hide from displaying if EndDate is null
             {
                 @Html.DisplayNameFor(model => model.EndDate)
             }
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.EndDate) 
+            @Html.DisplayFor(model => model.EndDate)   <!-- EndDate displayed if exist -->
         </dd>
 
-        <dt> <!-- Displayed if any days provided -->
-            @if (ViewBag.SelectedDays.Count != 0)
+        <dt>
+            @if (ViewBag.SelectedDays.Count != 0) // Hide from displaying if no selected days
             {
                 @Html.Label("Valid Every:")
             }
@@ -106,7 +100,7 @@
 
         <dd>
             @{
-                foreach (var day in ViewBag.SelectedDays)
+                foreach (var day in ViewBag.SelectedDays) // Display selected days if any
                 {
                     <span>@day &nbsp;</span>
                 }
@@ -114,9 +108,44 @@
         </dd>
     </dl>
 </div>
+<hr />
 
-<p>
-    @Html.ActionLink("Back to List", "UserOffers", "LiftOffers") |
-    @Html.ActionLink("Edit", "Edit", new {
-                        id = Model.LiftOfferID }, new { @class = "btn btn-default" })
-</p>
+@{  // Create number of seats = seats available for dropdown list
+    List<SelectListItem> seatsNo = new List<SelectListItem>();
+    for (int i = 1; i <= Model.SeatsAvailable; i++)
+    {
+        seatsNo.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+    }
+}
+
+@if (Model.UserID != ViewBag.CurrentID)     // Hide booking section when user selected their own offer
+{
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.LiftOfferID)
+            @Html.HiddenFor(model => model.UserID)
+
+            <div class="form-group">
+                @Html.Label("How many ?", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.DropDownList("requestedSeats", seatsNo, "-no-", new { title = "Select seats" })
+            </div>
+            <p>&nbsp</p>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @Html.ActionLink("Back to List", "All", "LiftOffers") |
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+}
+
+@if (Model.UserID == ViewBag.CurrentID)     // Warning displayed when user selects their own offer
+{
+    @Html.Label("You cannot request seat on your own offer !!", new { @class = "text-danger" });
+    <p>@Html.ActionLink("Back to List", "All", "LiftOffers")</p>
+}
+

@@ -16,20 +16,40 @@ namespace ShareCar.Controllers
         // GET: Home/Index
         public async Task<ActionResult> Index()
         {
-            // gets all lift offers and orders them by descending
-            var liftOffers = db.LiftOffers.OrderByDescending(o => o.LiftOfferID);
-            int no = await liftOffers.CountAsync();
+            // Get all lift offers and order them by descending - from most recent to oldest
+            var offersAll = await db.LiftOffers.OrderByDescending(o => o.LiftOfferID).ToListAsync();
+            //int no = await offersAll.CountAsync();
 
-            if (no > 3)
+            var offersNotExpired = new List<LiftOffer>();
+
+            foreach (var off in offersAll)
             {
-                // returns 3 most recent offers if more
-                return View(await liftOffers.Take(3).ToListAsync());
+                // If EndDate null, then add offer to list of not expired offers
+                if (off.EndDate == null)
+                {
+                    offersNotExpired.Add(off);
+                }
+                // Get EndDate from offer. If null then set default - 01/01/0001
+                DateTime endDate = off.EndDate.GetValueOrDefault();
+                // Check if EndDate is older then current date (offer expired ?)
+                int result = DateTime.Compare(endDate, DateTime.Today);
+                // If EndDate not older, then add offer to list of not expired offers
+                if (result >= 0)
+                {
+                    offersNotExpired.Add(off);
+                }
             }
-            else
-            {
-                return View(await liftOffers.ToListAsync());
-            }
+
+            //if (no > 3)
+            //{
+            //    // Return 3 most recent offers if more
+            //    return View(await offersNotExpired.Take(3).ToList());
+            //}
+            //else
+            //{
+            return View(offersNotExpired.Take(3).ToList());
         }
+    
 
         public ActionResult About()
         {

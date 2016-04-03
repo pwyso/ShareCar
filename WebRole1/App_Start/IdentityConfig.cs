@@ -109,7 +109,7 @@ namespace ShareCar.Models
     {
         protected override void Seed(ApplicationDbContext context)
         {
-
+            // Create admin user and Admin role for the application. Then assign user to Admin role.
             var UserManager = new UserManager<User>(new UserStore<User>(context));
             var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
 
@@ -134,9 +134,10 @@ namespace ShareCar.Models
             }
             base.Seed(context);
 
+            // Create sample users
             var users = new List<User>
             {
-                new User { UserName = "margaret@gmail.com", Email = "margaret@gmail.com", EmailConfirmed = true, Name = "Margaret", PhoneNumber = "087111111", Age = 29, IsSmoker = IsSmoking.No, RatingAvg = null },
+                new User { UserName = "mary@gmail.com", Email = "mary@gmail.com", EmailConfirmed = true, Name = "Mary", PhoneNumber = "087111111", Age = 29, IsSmoker = IsSmoking.No, RatingAvg = null },
                 new User { UserName = "adam@gmail.com", Email = "adam@gmail.com", EmailConfirmed = true, Name = "Adam", PhoneNumber = "087234465", Age = 22, IsSmoker = IsSmoking.No, RatingAvg = null },
                 new User { UserName = "lucy@gmail.com", Email = "lucy@gmail.com", EmailConfirmed = true, Name = "Lucy", PhoneNumber = "0868734627", Age = 46, IsSmoker = IsSmoking.No, RatingAvg = null },
                 new User { UserName = "steven@gmail.com", Email = "steven@gmail.com",EmailConfirmed = true, Name = "Steven", PhoneNumber = "0896743368", Age = 33, IsSmoker = IsSmoking.Yes, RatingAvg = null }
@@ -148,32 +149,85 @@ namespace ShareCar.Models
                 base.Seed(context);
             }
 
+            // Create sample offers
             var offers = new List<LiftOffer>
             {
                 new LiftOffer { CreateTime = DateTime.Parse("10/02/2016"), StartPointName = "Dublin", EndPointName = "Swords",
                                 StartDate = DateTime.Parse("15/02/2016"), EndDate = DateTime.Parse("31/12/2016"),
                                 DepartureHour = "10", DepartureMin = "00", ArrivalHour = "14", ArrivalMin = "00",
-                                CarMake = "Honda", CarModel = "Accord", SeatsAvailable = 2, UserID = users.Single(s => s.Email == "adam@gmail.com").Id },
+                                CarMake = "Honda", CarModel = "Accord", SeatsAvailable = 2,
+                                UserID = users.Single(s => s.Email == "adam@gmail.com").Id },
                 new LiftOffer { CreateTime = DateTime.Parse("15/02/2016"), StartPointName = "Galway", EndPointName = "Limerick",
                                 StartDate = DateTime.Parse("20/02/2016"), EndDate = DateTime.Parse("31/12/2017"),
                                 DepartureHour = "16", DepartureMin = "15", ArrivalHour = "18", ArrivalMin = "30",
-                                CarMake = "Ford", CarModel = "Mondeo", SeatsAvailable = 3, UserID = users.Single(s => s.Email == "lucy@gmail.com").Id },
+                                CarMake = "Ford", CarModel = "Mondeo", SeatsAvailable = 3, 
+                                UserID = users.Single(s => s.Email == "lucy@gmail.com").Id },
                 new LiftOffer { CreateTime = DateTime.Parse("20/02/2016"), StartPointName = "Wexford", EndPointName = "Dublin",
                                 StartDate = DateTime.Parse("20/02/2016"), EndDate = DateTime.Parse("30/10/2016"),
                                 DepartureHour = "09", DepartureMin = "00", ArrivalHour = "09", ArrivalMin = "30",
-                                CarMake = "Toyota", CarModel = "Corolla", SeatsAvailable = 1, UserID = users.Single(s => s.Email == "steven@gmail.com").Id },
-                new LiftOffer { CreateTime = DateTime.Parse("02/02/2016"), StartPointName = "Wexford", EndPointName = "Roslare",
+                                CarMake = "Toyota", CarModel = "Corolla", SeatsAvailable = 3, 
+                                UserID = users.Single(s => s.Email == "steven@gmail.com").Id },
+                new LiftOffer { CreateTime = DateTime.Parse("25/02/2016"), StartPointName = "Wexford", EndPointName = "Roslare",
                                 StartDate = DateTime.Parse("25/02/2016"), EndDate = null,
                                 DepartureHour = "06", DepartureMin = "30", ArrivalHour = "08", ArrivalMin = "30",
-                                CarMake = "Toyota", CarModel = "Corolla", SeatsAvailable = 3, UserID = users.Single(s => s.Email == "steven@gmail.com").Id }
+                                CarMake = "Toyota", CarModel = "Corolla", SeatsAvailable = 4, 
+                                UserID = users.Single(s => s.Email == "steven@gmail.com").Id },
+                new LiftOffer { CreateTime = DateTime.Parse("01/03/2016"), StartPointName = "Allenwood", EndPointName = "Maynooth",
+                                StartDate = DateTime.Parse("17/03/2016"), EndDate = DateTime.Parse("17/03/2016"),
+                                DepartureHour = "16", DepartureMin = "15", ArrivalHour = "18", ArrivalMin = "30",
+                                CarMake = "BMW", CarModel = "520", SeatsAvailable = 4,
+                                UserID = users.Single(s => s.Email == "mary@gmail.com").Id }
             };
 
             foreach (LiftOffer off in offers)
             {
-                var offersForUser = context.LiftOffers.Where(s => s.User.Id == off.UserID
-                                    && s.LiftOfferID == off.LiftOfferID).SingleOrDefault();
+                //var offersForUser = context.LiftOffers.Where(
+                //    s => s.User.Id == off.UserID && s.LiftOfferID == off.LiftOfferID).SingleOrDefault();
 
                 context.LiftOffers.Add(off);
+                context.SaveChanges();
+            }
+
+            // Assign days for sample offers
+            var offerDays = new List<Day>();
+            
+            foreach (LiftOffer off in offers)
+            {
+                foreach (Day d in DayRepository.GetAll())
+                {
+                    if ((d.DayID == 1) || (d.DayID == 2) || (d.DayID == 3))
+                    {
+                        offerDays.Add(new Day { DayID = d.DayID, DayName = d.DayName, Selected = true, LiftOfferID = off.LiftOfferID });
+                    }
+                    else
+                    {
+                        offerDays.Add(new Day { DayID = d.DayID, DayName = d.DayName, Selected = false, LiftOfferID = off.LiftOfferID });
+                    }
+                }         
+            }
+
+            foreach (Day item in offerDays)
+            {
+                context.Days.Add(item);
+                context.SaveChanges();
+            }
+
+            var seatBookings = new List<SeatBooking>
+            {
+                new SeatBooking { CreateTime = DateTime.Parse("23/02/2016"), SeatsRequest = 1, LiftOfferID = 2,
+                                  IsAccepted = false, UserID = users.Single(s => s.Email == "adam@gmail.com").Id,
+                                  OffererID = users.Single(s => s.Email == "lucy@gmail.com").Id },
+                new SeatBooking { CreateTime = DateTime.Parse("23/02/2016"), SeatsRequest = 1, LiftOfferID = 2,
+                                  IsAccepted = true, UserID = users.Single(s => s.Email == "mary@gmail.com").Id,
+                                  OffererID = users.Single(s => s.Email == "lucy@gmail.com").Id },
+                new SeatBooking { CreateTime = DateTime.Parse("01/03/2016"), SeatsRequest = 1, LiftOfferID = 1,
+                                  IsAccepted = false, UserID = users.Single(s => s.Email == "steven@gmail.com").Id,
+                                  OffererID = users.Single(s => s.Email == "adam@gmail.com").Id }
+            };
+
+            foreach (SeatBooking item in seatBookings)
+            {
+                context.SeatBookings.Add(item);
                 context.SaveChanges();
             }
         }

@@ -1,0 +1,56 @@
+﻿@model ShareCar.Models.User
+@{
+    ViewBag.Title = "Confirmation";
+}
+
+<h2>Confirmation</h2>
+
+<div>
+    <h4>Your request has been sent.</h4>
+    <h4>Now, you can contact with Lift Offerer.</h4>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RatingAvg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RatingAvg)
+        </dd>
+
+        <dt>
+            @Html.Label("Phone No.")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsSmoker)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSmoker)
+        </dd>
+    </dl>
+</div>
+
+<p>
+    @Html.ActionLink("Back to List", "All", "LiftOffers")
+</p>

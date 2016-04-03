@@ -14,13 +14,14 @@ namespace ShareCar.Models
         public int FeedbackID { get; set; }
 
         [Required]
-        [Display(Name = "Feedback"), StringLength(80, ErrorMessage = "Max. 80 characters allowed.")]
+        [Display(Name = "Feedback"), StringLength(90, ErrorMessage = "Max. 90 characters allowed.")]
         public string Description { get; set; }
 
         [Required]
         [Display(Name = "Rating"), Range(1, 5, ErrorMessage = "Only 1,2,3,4 or 5 allowed.")]
         public int RatingValue { get; set; }
 
+        [Display(Name = "Left by")]
         public string LeftBy { get; set; }
 
         public bool IsReported { get; set; }

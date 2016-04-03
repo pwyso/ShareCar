@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using ShareCar.Models;
 using Microsoft.AspNet.Identity;
+using System.Collections.ObjectModel;
 
 namespace ShareCar.Controllers
 {
@@ -36,7 +37,32 @@ namespace ShareCar.Controllers
 
             ViewBag.CurrentFilter = searchString;
 
-            var offers = from s in db.LiftOffers select s;
+            //var offer = from s in db.LiftOffers select s;
+            //var offers = db.LiftOffers.AsEnumerable();
+
+            var offersAll = db.LiftOffers.ToList();
+            var offersNotExpired = new List<LiftOffer>();
+           
+            foreach (var off in offersAll)
+            {
+                // If EndDate null, then add offer to list of not expired offers
+                if (off.EndDate == null)
+                {
+                    offersNotExpired.Add(off);
+                }
+                // Get EndDate from offer. If null then set default - 01/01/0001
+                DateTime endDate = off.EndDate.GetValueOrDefault();
+                // Check if EndDate is older then current date (offer expired ?)
+                int result = DateTime.Compare(endDate, DateTime.Today);
+                // If EndDate not older, then add offer to list of not expired offers
+                if ( result >= 0)
+                {
+                    offersNotExpired.Add(off);
+                }
+            }
+
+            // Pass only not expired offers
+            var offers = offersNotExpired.AsEnumerable();
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -66,7 +92,7 @@ namespace ShareCar.Controllers
         public async Task<ActionResult> UserOffers()
         {
             var id = User.Identity.GetUserId();
-            var liftOffers = db.LiftOffers.OrderByDescending(o => o.StartPointName).Where(u => u.UserID == id);
+            var liftOffers = db.LiftOffers.OrderBy(o => o.StartPointName).Where(u => u.UserID == id);
             return View(await liftOffers.ToListAsync());
         }
 
@@ -118,16 +144,15 @@ namespace ShareCar.Controllers
         }
 
         // POST: LiftOffers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include =
-            "LiftOfferID,StartDate,EndDate,DepartureHour,DepartureMin,ArrivalHour,ArrivalMin,StartPointName,EndPointName,CarMake,CarModel,SeatsAvailable,UserID")]
+            "LiftOfferID,StartPointName,EndPointName,StartDate,EndDate,DepartureHour,DepartureMin,ArrivalHour,ArrivalMin,CarMake,CarModel,SeatsAvailable,UserID")]
                 LiftOffer liftOffer, List<Day> days)
         {
-            // Get UserID of current logged-in user
+            // Set UserID to ID of currenttly logged-in user
             liftOffer.UserID = User.Identity.GetUserId();
+
             if (ModelState.IsValid)
             {
                 db.LiftOffers.Add(liftOffer);
@@ -141,28 +166,6 @@ namespace ShareCar.Controllers
                 }
                 return RedirectToAction("UserOffers");
             }
-
-            //public async Task<ActionResult> Create(LiftOffer liftOffer)
-            //{
-            //    // Get UserID of current logged-in user
-            //    liftOffer.UserID = User.Identity.GetUserId();
-            //    if (ModelState.IsValid)
-            //    {
-            //        db.LiftOffers.Add(liftOffer);
-            //        await db.SaveChangesAsync();
-
-            //        var days = liftOffer.Days.ToList();
-            //        foreach (Day d in days)
-            //        {
-            //            d.LiftOfferID = liftOffer.LiftOfferID;
-            //            db.Days.Add(d);
-            //            await db.SaveChangesAsync();
-            //        }
-            //        return RedirectToAction("UserOffers");
-            //    }
-
-
-            //ViewBag.UserID = new SelectList(db.Users, "Id", "Name", liftOffer.UserID);
             return View(liftOffer);
         }
 
@@ -179,17 +182,15 @@ namespace ShareCar.Controllers
                 return HttpNotFound();
             }
             liftOffer.Days = await db.Days.Where(d => d.LiftOfferID == id).ToListAsync();
-            ViewBag.UserID = new SelectList(db.Users, "Id", "Name", liftOffer.UserID);
+            //ViewBag.UserID = new SelectList(db.Users, "Id", "Name", liftOffer.UserID);
             return View(liftOffer);
         }
 
         // POST: LiftOffers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = 
-            "LiftOfferID,StartDate,EndDate,DepartureHour,DepartureMin,ArrivalHour,ArrivalMin,StartPointName,EndPointName,CarMake,CarModel,SeatsAvailable,UserID")]
+        public async Task<ActionResult> Edit([Bind(Include =
+            "LiftOfferID,StartPointName,EndPointName,StartDate,EndDate,DepartureHour,DepartureMin,ArrivalHour,ArrivalMin,CarMake,CarModel,SeatsAvailable,UserID")]
                 LiftOffer liftOffer, List<Day> days)
         {
             if (ModelState.IsValid)
@@ -207,25 +208,6 @@ namespace ShareCar.Controllers
             }
             return View(liftOffer);
         }
-
-        //public async Task<ActionResult> Edit(LiftOffer liftOffer)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(liftOffer).State = EntityState.Modified;
-        //        await db.SaveChangesAsync();
-
-        //        var days = liftOffer.Days.ToList();
-        //        foreach (Day d in days)
-        //        {
-        //            d.LiftOfferID = liftOffer.LiftOfferID;
-        //            db.Entry(d).State = EntityState.Modified;
-        //            db.SaveChanges();
-        //        }
-        //        return RedirectToAction("UserOffers");
-        //    }
-        //    return View(liftOffer);
-        //}
 
         // GET: LiftOffers/Delete/5
         public async Task<ActionResult> Delete(int? id)

@@ -12,9 +12,6 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.User.Name)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.StartPointName)
         </th>
         <th>
@@ -42,19 +39,18 @@
     {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.User.Name)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.StartPointName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.EndPointName)
         </td>
         <td>
-            @Html.DisplayFor(model => item.DepartureHour) : @Html.DisplayFor(model => item.DepartureMin)
+            @Html.DisplayFor(
+            model => item.DepartureHour):@Html.DisplayFor(model => item.DepartureMin)
         </td>
         <td>
-            @Html.DisplayFor(model => item.ArrivalHour) : @Html.DisplayFor(model => item.ArrivalMin)
+            @Html.DisplayFor(
+            model => item.ArrivalHour):@Html.DisplayFor(model => item.ArrivalMin)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CarMake)

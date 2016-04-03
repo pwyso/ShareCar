@@ -1,7 +1,13 @@
-﻿@model ShareCar.Models.LiftOffer
+﻿@using ShareCar.Models
+@model ShareCar.Models.LiftOffer
 
 @{
     ViewBag.Title = "Details";
+}
+
+@{ // find user to display name and rating
+    ApplicationDbContext db = new ApplicationDbContext();
+    var name = db.Users.FirstOrDefault(user => user.Id == Model.UserID);
 }
 
 <h2>Details</h2>
@@ -15,7 +21,15 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.User.Name)
+            @Html.DisplayFor(model => name.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.RatingAvg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => name.RatingAvg)
         </dd>
 
         <dt>
@@ -39,7 +53,8 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DepartureHour) <b>:</b> @Html.DisplayFor(model => model.DepartureMin)
+            @Html.DisplayFor(
+            model => model.DepartureHour):@Html.DisplayFor(model => model.DepartureMin)
         </dd>
 
         <dt>
@@ -47,7 +62,8 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ArrivalHour) <b>:</b> @Html.DisplayFor(model => model.ArrivalMin)
+            @Html.DisplayFor(
+            model => model.ArrivalHour):@Html.DisplayFor(model => model.ArrivalMin)
         </dd>
 
 
@@ -75,24 +91,36 @@
             @Html.DisplayFor(model => model.SeatsAvailable)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
+        <dt> <!-- Display if StartDate is future date -->
+            @if (DateTime.Compare(Model.StartDate, DateTime.Today) > 0)
+            {
+                @Html.DisplayNameFor(model => model.StartDate)
+            }
+        </dt>
+
+        <dd> <!-- Display if StartDate is future date -->
+            @if (DateTime.Compare(Model.StartDate, DateTime.Today) > 0)
+            {
+                @Html.DisplayFor(model => model.StartDate)
+            }
+        </dd>
+
+        <dt> <!-- EndDate displayed if provided -->
+            @if (Model.EndDate != null)
+            {
+                @Html.DisplayNameFor(model => model.EndDate)
+            }
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.StartDate)
+            @Html.DisplayFor(model => model.EndDate) 
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-
-        <dt>
-            <label>Valid Every:</label>
+        <dt> <!-- Displayed if any days provided -->
+            @if (ViewBag.SelectedDays.Count != 0)
+            {
+                @Html.Label("Valid Every:")
+            }
         </dt>
 
         <dd>
@@ -106,7 +134,12 @@
     </dl>
 </div>
 
-<p>
-    @Html.ActionLink("Back to List", "All", "LiftOffers")
-</p>
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        @Html.ActionLink("Back to List", "All", "LiftOffers") |
+        @Html.ActionLink("Book Seat", "Create", "SeatBookings", new {
+                            id = Model.LiftOfferID }, new { @class = "btn btn-default" })
+                            
+    </div>
+</div> 
 

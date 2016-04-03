@@ -25,14 +25,15 @@ namespace ShareCar.Controllers
         }
 
         // GET: Feedbacks/AllAdmin
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> AllAdmin()
         {
             var feedbacks = db.Feedbacks.OrderByDescending(o => o.FeedbackID);
             return View(await feedbacks.ToListAsync());
         }
 
-        // GET: Feedbacks/FeedbacksReceived
-        public async Task<ActionResult> FeedbacksReceived()
+        // GET: Feedbacks/Received
+        public async Task<ActionResult> Received()
         {
             var id = User.Identity.GetUserId();
             var feedbacks = db.Feedbacks.OrderByDescending(o => o.FeedbackID).Where(u => u.UserID == id);
@@ -40,7 +41,6 @@ namespace ShareCar.Controllers
         }
 
         // GET: Feedbacks/ReportFeedback/5
-        
         public async Task<ActionResult> ReportFeedback(int? id)
         {
             var feedbackToReport = await db.Feedbacks.FindAsync(id);
@@ -49,13 +49,14 @@ namespace ShareCar.Controllers
             {
                 db.Entry(feedbackToReport).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return View("ConfirmRepFeedback");
+                return View("ConfirmReport");
             }
-            return RedirectToAction("FeedbacksReceived", "Feedbacks");
+            return RedirectToAction("Received", "Feedbacks");
         }
 
-        // GET: Feedbacks/FeedbacksReported
-        public async Task<ActionResult> FeedbacksReported()
+        // GET: Feedbacks/Reported
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> Reported()
         {
             
             var feedbacks = db.Feedbacks.OrderByDescending(o => o.FeedbackID).Where(u => u.IsReported == true);
@@ -77,26 +78,24 @@ namespace ShareCar.Controllers
             return View(feedback);
         }
 
-        // GET: Feedbacks/Create
-        public ActionResult Create()
+        // GET: Feedbacks/Create/5
+        public ActionResult Create(string id)
         {
-            // gets Id of the current logged-in user
-            var currentUser = User.Identity.GetUserId();
-
-            // creates list of all users and removes current logged-in user (cannot leave feedback for themself)
-            SelectList list = new SelectList(db.Users.Where(u => u.Id != currentUser).ToList(), "Id", "Name");
-            ViewBag.UserID = list;
-            return View();
+            // Find user to leave feedback for displaying details in view
+            //ViewBag.UserID = db.Users.Find(id);
+            User user = db.Users.Find(id);
+            ViewBag.UserID = user;
+            Feedback feedback = new Feedback();
+            feedback.UserID = user.Id;
+            return View(feedback);
         }
 
         // POST: Feedbacks/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "FeedbackID,Description,RatingValue,UserID")] Feedback feedback)
+        public async Task<ActionResult> Create([Bind(Include = "FeedbackID,Description,RatingValue,IsReported,UserID")] Feedback feedback)
         {
-            // gets ID of logged-in user to find theirs name, then saves name in Feedbacks table in DB
+            // Get ID of logged-in user to find their name, then saves name in Feedbacks table in DB
             var writtenByUser = User.Identity.GetUserId();
             var usr = db.Users.Find(writtenByUser);
             feedback.LeftBy = usr.Name;
@@ -106,16 +105,16 @@ namespace ShareCar.Controllers
                 db.Feedbacks.Add(feedback);
                 await db.SaveChangesAsync();
 
-                // gets just rated user to calculate Rating and update it in User profile/table
+                // Get just rated user to calculate Rating and update it in User profile/table
                 User user = await db.Users.FirstAsync(r => r.Id == feedback.UserID);
 
-                // counts ratings of the rated user
+                // Count ratings of the rated user
                 int noOfRatings = await db.Feedbacks.Where(u => u.UserID == feedback.UserID).CountAsync();
                 double newRatingAvg;
 
                 if (noOfRatings != 0)
                 {
-                    // sum up all ratings of rated user and calculates new Rating
+                    // Sum up all ratings of rated user and calculates new Rating
                     int ratingsTotal = await db.Feedbacks.Where(u => u.UserID == feedback.UserID).Select(u => u.RatingValue).SumAsync();
                     newRatingAvg = (double)ratingsTotal / (noOfRatings);
                 }
@@ -125,16 +124,16 @@ namespace ShareCar.Controllers
                 }
                 user.RatingAvg = Math.Round(newRatingAvg, 2);
 
-                // updates Rating for rated user
+                // Updates Rating for rated user
                 db.Entry(user).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("All");
             }
-            ViewBag.UserID = new SelectList(db.Users, "Id", "Name", feedback.UserID);
             return View(feedback);
         }
 
         // GET: Feedbacks/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -151,8 +150,6 @@ namespace ShareCar.Controllers
         }
 
         // POST: Feedbacks/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "FeedbackID,Description,RatingValue,UserID,LeftBy,IsReported,")] Feedback feedback)
@@ -168,6 +165,7 @@ namespace ShareCar.Controllers
         }
 
         // GET: Feedbacks/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -189,23 +187,23 @@ namespace ShareCar.Controllers
         {
             Feedback feedback = await db.Feedbacks.FindAsync(id);
 
-            // stores ID of rated user to update Rating; ID will be null when feedback deleted
+            // Stores ID of rated user to update Rating; ID will be null when feedback deleted
             TempData["UserID"] = feedback.UserID;
 
             db.Feedbacks.Remove(feedback);
             await db.SaveChangesAsync();
 
-            // retrieves ID of user from deleted feedback
+            // Retrieve ID of user from deleted feedback
             string uid = (string)TempData["UserID"];
 
-            // gets user to calculate Rating and update it in User profile/table
+            // Get user to calculate Rating and update it in User profile/table
             User user = db.Users.Find(uid);
 
-            // counts ratings for user after deletion of feedback
+            // Count ratings for user after deletion of feedback
             int noOfRatings = await db.Feedbacks.Where(u => u.UserID == uid).CountAsync();
             if (noOfRatings != 0)
             {
-                // sum up all ratings of the user to calculate new Rating
+                // Sum up all ratings of the user to calculate new Rating
                 int ratingsTotal = await db.Feedbacks.Where(u => u.UserID == uid).Select(u => u.RatingValue).SumAsync();
                 double newRatingAvg = (double)ratingsTotal / (noOfRatings);
                 user.RatingAvg = Math.Round(newRatingAvg, 2);
@@ -218,7 +216,7 @@ namespace ShareCar.Controllers
             db.Entry(user).State = EntityState.Modified;
             await db.SaveChangesAsync();
 
-            return RedirectToAction("FeedbacksReported");
+            return RedirectToAction("Reported");
         }
         protected override void Dispose(bool disposing)
         {

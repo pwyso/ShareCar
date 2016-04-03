@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ShareCar.Models.LiftOffer>
+﻿@using ShareCar.Models
+@model IEnumerable<ShareCar.Models.LiftOffer>
 @{
     ViewBag.Title = "Home Page";
 }
@@ -9,11 +10,14 @@
 
     @*<p><a href="http://www.tobeimplemented" class="btn btn-primary btn-large">Learn more &raquo;</a></p>*@
 
-    <p>@Html.ActionLink("Advanced Search", "All", "LiftOffers", new { area = "" }, new { @class = "btn btn-primary btn-large" })</p>
+    <p>
+        @Html.ActionLink("Advanced Search", "All", "LiftOffers", new {
+                            area = "" }, new { @class = "btn btn-primary btn-large" })
+    </p>
 </div>
 
 <div class="col">
-    <h4 style="font-weight:bolder">Last offers</h4>
+    <h4 style="font-weight:bolder">Latest offers</h4>
     <table class="table">
         <tr>
             <th>
@@ -45,35 +49,42 @@
             </th>
             <th></th>
         </tr>
+
         @foreach (var item in Model)
         {
+            // find user to display name and rating
+            ApplicationDbContext db = new ApplicationDbContext();
+            var name = db.Users.FirstOrDefault(user => user.Id == item.UserID);
+         
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.User.Name)
+                    @Html.DisplayFor(model => name.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.User.RatingAvg)
+                    @Html.DisplayFor(model => name.RatingAvg)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.StartPointName)
+                    @Html.DisplayFor(model => item.StartPointName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EndPointName)
+                    @Html.DisplayFor(model => item.EndPointName)
                 </td>
                 <td>
-                    @Html.DisplayFor(model => item.DepartureHour) : @Html.DisplayFor(model => item.DepartureMin)
+                    @Html.DisplayFor(
+                    model => item.DepartureHour):@Html.DisplayFor(model => item.DepartureMin)
                 </td>
                 <td>
-                    @Html.DisplayFor(model => item.ArrivalHour) : @Html.DisplayFor(model => item.ArrivalMin)
+                    @Html.DisplayFor(
+                    model => item.ArrivalHour):@Html.DisplayFor(model => item.ArrivalMin)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CarMake)
+                    @Html.DisplayFor(model => item.CarMake)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CarModel)
+                    @Html.DisplayFor(model => item.CarModel)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.SeatsAvailable)
+                    @Html.DisplayFor(model => item.SeatsAvailable)
                 </td>
             </tr>
         }
@@ -92,11 +103,13 @@
      <div class="col-md-4">
             <h2>Lift offers</h2>
             <p>You can check all available lift offers. Select interesting offer and see details.</p>
-            @Html.ActionLink("See offers", "All", "LiftOffers", new { area = "" }, new { @class = "btn btn-default" })
+            @Html.ActionLink("See offers", "All", "LiftOffers", new {
+                                area = "" }, new { @class = "btn btn-default" })
      </div>
      <div class="col-md-4">
             <h2>Feedbacks</h2>
             <p>Check what people say and how they rate lift offers.</p>
-            @Html.ActionLink("See feedbacks", "All", "Feedbacks", new { area = "" }, new { @class = "btn btn-default" })
+            @Html.ActionLink("See feedbacks", "All", "Feedbacks", new {
+                                area = "" }, new { @class = "btn btn-default" })
      </div>
 </div>

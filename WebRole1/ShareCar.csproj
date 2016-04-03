@@ -210,6 +210,7 @@
     <Compile Include="Controllers\LiftOffersController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
+    <Compile Include="Controllers\SeatBookingsController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -242,15 +243,41 @@
     <Compile Include="Migrations\201603211651481_DayRemovedOfferID.Designer.cs">
       <DependentUpon>201603211651481_DayRemovedOfferID.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603231349018_AddedSeekerID.cs" />
+    <Compile Include="Migrations\201603231349018_AddedSeekerID.Designer.cs">
+      <DependentUpon>201603231349018_AddedSeekerID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603252216511_AddedSeatRequest.cs" />
+    <Compile Include="Migrations\201603252216511_AddedSeatRequest.Designer.cs">
+      <DependentUpon>201603252216511_AddedSeatRequest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603291436083_ChangedFeedbLenght.cs" />
+    <Compile Include="Migrations\201603291436083_ChangedFeedbLenght.Designer.cs">
+      <DependentUpon>201603291436083_ChangedFeedbLenght.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603301450119_AddedSeatBookings.cs" />
+    <Compile Include="Migrations\201603301450119_AddedSeatBookings.Designer.cs">
+      <DependentUpon>201603301450119_AddedSeatBookings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603301905406_AddedOffererID.cs" />
+    <Compile Include="Migrations\201603301905406_AddedOffererID.Designer.cs">
+      <DependentUpon>201603301905406_AddedOffererID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603302011044_AddedIsAccepted.cs" />
+    <Compile Include="Migrations\201603302011044_AddedIsAccepted.Designer.cs">
+      <DependentUpon>201603302011044_AddedIsAccepted.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
+    <Compile Include="Models\BookingDetailsModel.cs" />
     <Compile Include="Models\Day.cs" />
     <Compile Include="Models\DayModel.cs" />
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LiftOffer.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\SeatBooking.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="WebRole.cs" />
@@ -384,10 +411,15 @@
     <Content Include="Views\Feedbacks\Create.cshtml" />
     <Content Include="Views\Feedbacks\Delete.cshtml" />
     <Content Include="Views\Feedbacks\Edit.cshtml" />
-    <Content Include="Views\Feedbacks\FeedbacksReceived.cshtml" />
-    <Content Include="Views\Feedbacks\ConfirmRepFeedback.cshtml" />
-    <Content Include="Views\Feedbacks\FeedbacksReported.cshtml" />
+    <Content Include="Views\Feedbacks\Received.cshtml" />
+    <Content Include="Views\Feedbacks\ConfirmReport.cshtml" />
+    <Content Include="Views\Feedbacks\Reported.cshtml" />
     <Content Include="Views\Feedbacks\AllAdmin.cshtml" />
+    <Content Include="Views\SeatBookings\Create.cshtml" />
+    <Content Include="Views\SeatBookings\Confirmation.cshtml" />
+    <Content Include="Views\SeatBookings\Received.cshtml" />
+    <Content Include="Views\SeatBookings\MyBookings.cshtml" />
+    <Content Include="Views\SeatBookings\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -420,6 +452,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603211651481_DayRemovedOfferID.resx">
       <DependentUpon>201603211651481_DayRemovedOfferID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603231349018_AddedSeekerID.resx">
+      <DependentUpon>201603231349018_AddedSeekerID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603252216511_AddedSeatRequest.resx">
+      <DependentUpon>201603252216511_AddedSeatRequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603291436083_ChangedFeedbLenght.resx">
+      <DependentUpon>201603291436083_ChangedFeedbLenght.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603301450119_AddedSeatBookings.resx">
+      <DependentUpon>201603301450119_AddedSeatBookings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603301905406_AddedOffererID.resx">
+      <DependentUpon>201603301905406_AddedOffererID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603302011044_AddedIsAccepted.resx">
+      <DependentUpon>201603302011044_AddedIsAccepted.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -6,15 +6,16 @@
     ViewBag.Title = "Create";
 }
 
-@{ SelectList listHours = new SelectList(new[] {
+@{  // Create hours and minutes for dropdown list
+    SelectList listHours = new SelectList(new[] {
        "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11",
        "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" });
     SelectList listMinutes = new SelectList(new[] {
        "00", "15", "30", "45"});
 }
 
-@{
-    List<SelectListItem> seatsNo = new List<SelectListItem>();  // create 10 seats numbers for dropdown list
+@{  // Create 10 seats numbers for dropdown list
+    List<SelectListItem> seatsNo = new List<SelectListItem>();
     for (int i = 1; i <= 10; i++)
     {
         seatsNo.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
@@ -117,16 +118,11 @@
         <label style="font-weight:normal">@Model.Days[i].DayName</label>
 
     }
-    <p>&nbsp</p>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
-        </div>
-    </div>
 }
-
+<p>&nbsp</p>
 <div>
-    @Html.ActionLink("Back to List", "UserOffers", "LiftOffers")
+    @Html.ActionLink("Back to List", "UserOffers", "LiftOffers") |
+    <input type="submit" value="Create" class="btn btn-default" />
 </div>
 
 @section Scripts {

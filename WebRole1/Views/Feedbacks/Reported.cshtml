@@ -17,7 +17,7 @@
                 Rating
             </th>
             <th>
-                Description
+                Feedback
             </th>
             <th>
                 Left By
@@ -29,7 +29,7 @@
         {
             <tr>
                 <td>
-                    @{ // find logged-in user to display name
+                    @{  // find logged-in user to display name
                         ApplicationDbContext db = new ApplicationDbContext();
                         var name = db.Users.FirstOrDefault(user => user.Id == feedback.UserID);
                     }
@@ -45,7 +45,7 @@
                     @Html.DisplayFor(model => feedback.LeftBy)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = feedback.FeedbackID }) |
+                    @*@Html.ActionLink("Edit", "Edit", new { id = feedback.FeedbackID }) |*@
                     @*@Html.ActionLink("Details", "Details", new { id = feedback.FeedbackID }) |*@
                     @Html.ActionLink("Delete", "Delete", new { id = feedback.FeedbackID })
                 </td>
