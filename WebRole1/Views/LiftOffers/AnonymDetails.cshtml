@@ -11,9 +11,8 @@
 }
 
 <h2>Details</h2>
-
+<h4>Book seat to see @Model.User.Name's contact details.</h4>
 <div>
-    <h4>Lift Offer</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -90,47 +89,44 @@
         <dd>
             @Html.DisplayFor(model => model.SeatsAvailable)
         </dd>
-
-        <dt> <!-- Display if StartDate is future date -->
-            @if (DateTime.Compare(Model.StartDate, DateTime.Today) > 0)
-            {
+        <!-- Display if StartDate is future date -->
+        @if (DateTime.Compare(Model.StartDate, DateTime.Today) > 0)
+        {
+            <dt>
                 @Html.DisplayNameFor(model => model.StartDate)
-            }
-        </dt>
+            </dt>
 
-        <dd> <!-- Display if StartDate is future date -->
-            @if (DateTime.Compare(Model.StartDate, DateTime.Today) > 0)
-            {
+            <dd>
                 @Html.DisplayFor(model => model.StartDate)
-            }
-        </dd>
-
-        <dt> <!-- EndDate displayed if provided -->
-            @if (Model.EndDate != null)
-            {
+            </dd>
+        }
+        <!-- EndDate displayed if provided -->
+        @if (Model.EndDate != null)
+        {
+            <dt>
                 @Html.DisplayNameFor(model => model.EndDate)
-            }
-        </dt>
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.EndDate) 
-        </dd>
-
-        <dt> <!-- Displayed if any days provided -->
-            @if (ViewBag.SelectedDays.Count != 0)
-            {
+            <dd>
+                @Html.DisplayFor(model => model.EndDate)
+            </dd>
+        }
+        <!-- Displayed if any days provided -->
+        @if (ViewBag.SelectedDays.Count != 0)
+        {
+            <dt>
                 @Html.Label("Valid Every:")
-            }
-        </dt>
+            </dt>
 
-        <dd>
-            @{
-                foreach (var day in ViewBag.SelectedDays)
-                {
-                    <span>@day &nbsp;</span>
+            <dd>
+                @{
+                    foreach (var day in ViewBag.SelectedDays)
+                    {
+                        <span>@day &nbsp;</span>
+                    }
                 }
-            }
-        </dd>
+            </dd>
+        }
     </dl>
 </div>
 

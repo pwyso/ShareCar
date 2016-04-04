@@ -10,7 +10,7 @@
         @using (Html.BeginForm("All", "LiftOffers", FormMethod.Get))
         {
             <p>
-            Find by City/Town name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            Find by City/Town: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
             <input type="submit" value="Search" />
             </p>
         }

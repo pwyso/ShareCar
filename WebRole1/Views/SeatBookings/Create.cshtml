@@ -7,9 +7,8 @@
 }
 
 <h2>Book Seat</h2>
-
+<h4>Select no. of seats.</h4>
 <div>
-    <h4>for selected Lift Offer</h4>
     <hr />
     <dl class="dl-horizontal">
 
@@ -71,41 +70,44 @@
         <dd>
             @Html.DisplayFor(model => model.SeatsAvailable)
         </dd>
+        <!-- Display if StartDate is future date -->
+        @if (DateTime.Compare(Model.StartDate, DateTime.Today) > 0)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-
-        <dt>
-            @if (Model.EndDate != null) // Hide from displaying if EndDate is null
-            {
+            <dd>
+                @Html.DisplayFor(model => model.StartDate)
+            </dd>
+        }
+        <!-- EndDate displayed if provided -->
+        @if (Model.EndDate != null)
+        {
+            <dt>
                 @Html.DisplayNameFor(model => model.EndDate)
-            }
-        </dt>
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)   <!-- EndDate displayed if exist -->
-        </dd>
-
-        <dt>
-            @if (ViewBag.SelectedDays.Count != 0) // Hide from displaying if no selected days
-            {
+            <dd>
+                @Html.DisplayFor(model => model.EndDate)
+            </dd>
+        }
+        <!-- Displayed if any days provided -->
+        @if (ViewBag.SelectedDays.Count != 0)
+        {
+            <dt>
                 @Html.Label("Valid Every:")
-            }
-        </dt>
+            </dt>
 
-        <dd>
-            @{
-                foreach (var day in ViewBag.SelectedDays) // Display selected days if any
-                {
-                    <span>@day &nbsp;</span>
+            <dd>
+                @{
+                    foreach (var day in ViewBag.SelectedDays)
+                    {
+                        <span>@day &nbsp;</span>
+                    }
                 }
-            }
-        </dd>
+            </dd>
+        }
     </dl>
 </div>
 <hr />

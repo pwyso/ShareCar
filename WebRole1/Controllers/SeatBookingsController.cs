@@ -45,16 +45,19 @@ namespace ShareCar.Controllers
             if (ModelState.IsValid)
             {
                 LiftOffer liftOffer = await db.LiftOffers.FindAsync(id);
-                User contactDetails = db.Users.Find(liftOffer.UserID);             
+                // Get lift oferer details
+                User userDetails = db.Users.Find(liftOffer.UserID);             
                 SeatBooking seatBooking = new SeatBooking();
                 seatBooking.LiftOfferID = id;
                 // Set UserID to currently logged-in user              
-                seatBooking.UserID = User.Identity.GetUserId();         
+                seatBooking.UserID = User.Identity.GetUserId();
+                // Set OffererID to lift giver ID
+                seatBooking.OffererID = liftOffer.UserID;
                 seatBooking.SeatsRequest = int.Parse(requestedSeats);   
-                db.Entry(seatBooking).State = EntityState.Modified;
+                db.SeatBookings.Add(seatBooking);
                 await db.SaveChangesAsync();
 
-                return View("Confirmation", contactDetails);
+                return View("Confirmation", userDetails);
             }
             return View("Error");               
         }
@@ -135,28 +138,16 @@ namespace ShareCar.Controllers
             return RedirectToAction("Received");
         }
 
-        // GET: SeatBookings/Decline/5   - Decline received seat booking offer
-        //public async Task<ActionResult> Decline(int? id)                // Passed SeatBookingID
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    // Get seat booking offer
-        //    SeatBooking seatBooking = await db.SeatBookings.FindAsync(id);
-        //    // Get lift offer for which the seat booking offer has been created
-        //    LiftOffer liftOffer = await db.LiftOffers.FindAsync(seatBooking.LiftOfferID);
-        //    if ((liftOffer == null) || (seatBooking == null))
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    seatBooking.SeatsRequest = 0;
-        //    db.Entry(liftOffer).State = EntityState.Modified;
-        //    await db.SaveChangesAsync();
-        //    return RedirectToAction("Received");
-        //}
+        // GET: SeatBookings/Decline/5   - Delete new (not accepted) seat booking offer 
+        public async Task<ActionResult> Decline(int? id)                // Passed SeatBookingID
+        {
+            SeatBooking seatBooking = await db.SeatBookings.FindAsync(id);
+            db.SeatBookings.Remove(seatBooking);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Received");
+        }
 
-        // GET: SeatBookings/Delete/5   - Delete seat booking offer
+        // GET: SeatBookings/Delete/5   - Delete accepted seat booking offer
         public async Task<ActionResult> Delete(int? id)                 // Passed SeatBookingID
         {
             if (id == null)
@@ -209,10 +200,13 @@ namespace ShareCar.Controllers
             foreach (SeatBooking sb in seatBookings)
             {
                 int liftOfferID = sb.LiftOfferID;
-                string offererID = sb.OffererID;
+                // Find the offer for lift booking
                 LiftOffer offer = await db.LiftOffers.FindAsync(liftOfferID);
+                // Get lift offerer ID
+                string offererID = offer.UserID;
                 // Get lift offerer ID to display details in view for lift seeker
                 User user = db.Users.Find(offererID);
+                // All detailed information goes here for display in the view
                 BookingDetailsModel model = new BookingDetailsModel();
                 model.User = user;
                 model.LiftOffer = offer;
