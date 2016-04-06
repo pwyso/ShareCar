@@ -66,7 +66,7 @@ namespace ShareCar.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                offers = offers.Where(o => o.StartPointName == searchString);
+                offers = offers.Where(o => o.EndPointName == searchString);
             }
             switch (sortOrder)
             {
