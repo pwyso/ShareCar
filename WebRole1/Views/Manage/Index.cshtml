@@ -1,23 +1,67 @@
 ﻿@model ShareCar.Models.IndexViewModel
 @{
-    ViewBag.Title = "Manage your account";
+    ViewBag.Title = "Manage Account";
 }
 
 <h2>@ViewBag.Title.</h2>
 <p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Age)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Age)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.IsSmoker)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.IsSmoker)
+        </dd>
+
+        <dt>
+            @Html.Label("", "Phone No.", htmlAttributes: new { @class = "control-label" })
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.PhoneNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Email)
+        </dd>
+    </dl>
+</div>
 <div class="row">
     <div class="col-md-8">
-        <p>
-            @if (Model.HasPassword)
+        @Html.ActionLink("Edit profile", "EditProfile", new { id = Model.User.Id })
+        &nbsp;|&nbsp;
+        @if (Model.HasPassword)
             {
-                @Html.ActionLink("Change your password", "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink("Pick a password", "SetPassword")
-            }
+            @Html.ActionLink("Change password", "ChangePassword")
+        }
+        else
+        {
+            @Html.ActionLink("Pick a password", "SetPassword")
+        }
         </p>
-        <p>
+@*        <p>
             Phone Number: @(Model.PhoneNumber ?? "None") [
             @if (Model.PhoneNumber != null)
             {
@@ -33,14 +77,14 @@
         </p>
         <p>
             External Logins: @Model.Logins.Count
-            @Html.ActionLink("[Manage]", "ManageLogins")
+            [@Html.ActionLink("Manage", "ManageLogins")]
         </p>
         @if (Model.TwoFactor)
         {
             <form method="post" action="/Manage/DisableTFA">
                 <p>
                     Two factor is currently enabled:
-                    <input type="submit" value="Disable" class="btn btn-default"/>
+                    <input type="submit" value="Disable" class="btn btn-default" />
                 </p>
             </form>
         }
@@ -49,7 +93,7 @@
             <form method="post" action="/Manage/EnableTFA">
                 <p>
                     Two factor is currently disabled:
-                    <input type="submit" value="Enable" class="btn btn-default"/>
+                    <input type="submit" value="Enable" class="btn btn-default" />
                 </p>
             </form>
         }
@@ -67,9 +111,10 @@
             <form method="post" action="/Manage/RememberBrowser">
                 <p>
                     Browser is curently not remembered for two factor:
-                    <input type="submit" value="Remember Browser" class="btn btn-default"/>
+                    <input type="submit" value="Remember Browser" class="btn btn-default" />
                 </p>
             </form>
         }
+*@
     </div>
 </div>

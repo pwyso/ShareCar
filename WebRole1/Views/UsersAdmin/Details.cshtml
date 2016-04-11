@@ -9,7 +9,7 @@
 @if (ViewBag.RoleNames.Count == 0)
 {
     <hr />
-    <p>No roles foud for this user.</p>
+    <p>No roles found for this user.</p>
 }
 
 <div class="col">
@@ -26,8 +26,9 @@
 </div>
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index") |
+    @Html.ActionLink("Edit User", "Edit", new { id = Model.Id })
+
 </p>
 
 

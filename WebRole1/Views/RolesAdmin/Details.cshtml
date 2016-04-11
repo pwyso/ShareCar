@@ -4,7 +4,7 @@
     ViewBag.Title = "List Roles";
 }
 
-<h2>Users in role: <br /><span style="color:darkblue;font-size:x-large">@Html.DisplayFor(model => model.Name)</span></h2>
+<h2>Users in role: <span style="color:darkblue">@Html.DisplayFor(model => model.Name)</span></h2>
 
 @if (ViewBag.UserCount == 0)
 {
@@ -44,8 +44,8 @@
     </table>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index") |
+    @Html.ActionLink("Edit Role", "Edit", new { id = Model.Id })
 </p>
 
 

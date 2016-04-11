@@ -16,10 +16,10 @@ namespace ShareCar.Controllers
         // GET: Home/Index
         public async Task<ActionResult> Index()
         {
-            // Get all lift offers and order them by descending - from most recent to oldest
-            var offersAll = await db.LiftOffers.OrderByDescending(o => o.LiftOfferID).ToListAsync();
-            //int no = await offersAll.CountAsync();
-
+            // Get lift offers with min. 1 seat available, order by descending - from most recent to oldest
+            var offersAll = await db.LiftOffers.OrderByDescending(
+                            o => o.LiftOfferID).Where(o => o.SeatsAvailable > 0).ToListAsync();
+            // Create list with not expired offers to display in a view
             var offersNotExpired = new List<LiftOffer>();
 
             foreach (var off in offersAll)
@@ -39,24 +39,17 @@ namespace ShareCar.Controllers
                     offersNotExpired.Add(off);
                 }
             }
-
-            //if (no > 3)
-            //{
-            //    // Return 3 most recent offers if more
-            //    return View(await offersNotExpired.Take(3).ToList());
-            //}
-            //else
-            //{
             return View(offersNotExpired.Take(3).ToList());
         }
-    
 
+        // GET: Home/About
         public ActionResult About()
         {
             ViewBag.Message = "Your app description page.";
             return View();
         }
 
+        // GET: Home/Contact
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

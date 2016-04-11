@@ -13,7 +13,7 @@ namespace ShareCar.Models
         [Key]
         public int FeedbackID { get; set; }
 
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         [Display(Name = "Feedback"), StringLength(90, ErrorMessage = "Max. 90 characters allowed.")]
         public string Description { get; set; }
 

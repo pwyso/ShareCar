@@ -30,12 +30,12 @@
     <div class="form-horizontal">
         <h4>Lift Offer</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.ValidationSummary("", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.StartPointName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.StartPointName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.StartPointName, "", new { @class = "text-danger" })
+                @*@Html.ValidationMessageFor(model => model.StartPointName, "", new { @class = "text-danger" })*@
             </div>
         </div>
 
@@ -43,7 +43,7 @@
             @Html.LabelFor(model => model.EndPointName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.EndPointName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EndPointName, "", new { @class = "text-danger" })
+                @*@Html.ValidationMessageFor(model => model.EndPointName, "", new { @class = "text-danger" })*@
             </div>
         </div>
 
@@ -51,9 +51,9 @@
             @Html.LabelFor(model => model.DepartureHour, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.DepartureHour, listHours, "-hour-")
-                @Html.ValidationMessageFor(model => model.DepartureHour, "", new { @class = "text-danger" })
+                @*@Html.ValidationMessageFor(model => model.DepartureHour, "", new { @class = "text-danger" })*@
                 @Html.DropDownListFor(model => model.DepartureMin, listMinutes, "-min-")
-                @Html.ValidationMessageFor(model => model.DepartureMin, "", new { @class = "text-danger" })
+                @*@Html.ValidationMessageFor(model => model.DepartureMin, "", new { @class = "text-danger" })*@
             </div>
         </div>
 
@@ -61,9 +61,9 @@
             @Html.LabelFor(model => model.ArrivalHour, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.ArrivalHour, listHours, "-hour-")  
-                @Html.ValidationMessageFor(model => model.ArrivalHour, "", new { @class = "text-danger" })
+                @*@Html.ValidationMessageFor(model => model.ArrivalHour, "", new { @class = "text-danger" })*@
                 @Html.DropDownListFor(model => model.ArrivalMin, listMinutes, "-min-")
-                @Html.ValidationMessageFor(model => model.ArrivalMin, "", new { @class = "text-danger" })
+                @*@Html.ValidationMessageFor(model => model.ArrivalMin, "", new { @class = "text-danger" })*@
             </div>
         </div>
 
@@ -71,7 +71,7 @@
             @Html.LabelFor(model => model.CarMake, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CarMake, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CarMake, "", new { @class = "text-danger" })
+                @*@Html.ValidationMessageFor(model => model.CarMake, "", new { @class = "text-danger" })*@
             </div>
         </div>
 
@@ -79,7 +79,7 @@
             @Html.LabelFor(model => model.CarModel, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CarModel, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CarModel, "", new { @class = "text-danger" })
+                @*@Html.ValidationMessageFor(model => model.CarModel, "", new { @class = "text-danger" })*@
             </div>
         </div>
 
@@ -87,7 +87,7 @@
             @Html.LabelFor(model => model.SeatsAvailable, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.SeatsAvailable, seatsNo, "-no-")
-                @Html.ValidationMessageFor(model => model.SeatsAvailable, "", new { @class = "text-danger" })
+                @*@Html.ValidationMessageFor(model => model.SeatsAvailable, "", new { @class = "text-danger" })*@
             </div>
         </div>
 
@@ -103,6 +103,7 @@
             @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+                <p style="font-size:12px"; class="text-danger">not required</p>
                 @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -124,7 +125,7 @@
         <input type="submit" value="Create" class="btn btn-default" />
     </div>
 }
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+@section Scripts
+{
+ @Scripts.Render("~/bundles/jqueryval")
 }

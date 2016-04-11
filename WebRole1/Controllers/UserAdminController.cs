@@ -52,14 +52,12 @@ namespace ShareCar.Controllers
             }
         }
 
-        //
         // GET: /Users/
         public async Task<ActionResult> Index()
         {
             return View(await UserManager.Users.ToListAsync());
         }
 
-        //
         // GET: /Users/Details/5
         public async Task<ActionResult> Details(string id)
         {
@@ -74,7 +72,6 @@ namespace ShareCar.Controllers
             return View(user);
         }
 
-        //
         // GET: /Users/Create
         public async Task<ActionResult> Create()
         {
@@ -83,7 +80,6 @@ namespace ShareCar.Controllers
             return View();
         }
 
-        //
         // POST: /Users/Create
         [HttpPost]
         public async Task<ActionResult> Create(RegisterViewModel userViewModel, params string[] selectedRoles)
@@ -120,7 +116,6 @@ namespace ShareCar.Controllers
             return View();
         }
 
-        //
         // GET: /Users/Edit/1
         public async Task<ActionResult> Edit(string id)
         {
@@ -138,9 +133,12 @@ namespace ShareCar.Controllers
 
             return View(new EditUserViewModel()
             {
-                
-                UserId = user.Id,
+
+                Id = user.Id,
                 Email = user.Email,
+                PhNo = user.PhoneNumber,
+                Name = user.Name,
+                LockedByDate = user.LockoutEndDateUtc,
                 RolesList = RoleManager.Roles.ToList().Select(x => new SelectListItem()
                 {
                     Selected = userRoles.Contains(x.Name),
@@ -150,15 +148,14 @@ namespace ShareCar.Controllers
             });
         }
 
-        //
         // POST: /Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Email,Id")] EditUserViewModel editUser, params string[] selectedRole)
+        public async Task<ActionResult> Edit([Bind(Include = "Name,Email,Id,PhNo,LockoutEndDateUtc")] EditUserViewModel editUser, string lockdata, params string[] selectedRole )
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByIdAsync(editUser.UserId);
+                var user = await UserManager.FindByIdAsync(editUser.Id);
                 if (user == null)
                 {
                     return HttpNotFound();
@@ -166,6 +163,17 @@ namespace ShareCar.Controllers
 
                 user.UserName = editUser.Email;
                 user.Email = editUser.Email;
+                user.Name = editUser.Name;
+                user.PhoneNumber = editUser.PhNo;
+
+                if (lockdata == "Unlock")
+                {
+                    user.LockoutEndDateUtc = null;
+                }
+                if (lockdata == "Lock")
+                {                   
+                    user.LockoutEndDateUtc = DateTime.UtcNow.AddMonths(3);
+                }
 
                 var userRoles = await UserManager.GetRolesAsync(user.Id);
 
@@ -191,7 +199,6 @@ namespace ShareCar.Controllers
             return View();
         }
 
-        //
         // GET: /Users/Delete/5
         public async Task<ActionResult> Delete(string id)
         {
@@ -207,7 +214,6 @@ namespace ShareCar.Controllers
             return View(user);
         }
 
-        //
         // POST: /Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

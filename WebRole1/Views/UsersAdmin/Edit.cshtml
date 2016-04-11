@@ -6,26 +6,40 @@
 
 <h2>Edit.</h2>
 
-
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
         <h4>Edit User Form.</h4>
         <hr />
         @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.UserId)
+        @Html.HiddenFor(model => model.Id)
 
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
         <div class="form-group">
             @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-               @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-               @Html.ValidationMessageFor(model => model.Email)
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PhNo, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.PhNo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PhNo)
             </div>
         </div>
         <div class="form-group">
             @Html.Label("Roles", new { @class = "control-label col-md-2" })
-            <span class=" col-md-10">
+            <span class="col-md-10">
                 @foreach (var item in Model.RolesList)
                 {
                     <input type="checkbox" name="SelectedRole" value="@item.Value" checked="@item.Selected" class="checkbox-inline" />
@@ -33,18 +47,40 @@
                 }
             </span>
         </div>
-
+        <div class="form-group">
+            @Html.LabelFor(model => model.LockedByDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10", style="margin-top:6px">
+                @if (Model.LockedByDate != null)
+                {
+                    @Html.DisplayFor(model => model.LockedByDate)
+                }
+                @if (Model.LockedByDate == null)
+                {
+                    @Html.Raw("Not locked.")
+                }
+            </div>
+        </div>
+        <p style="position:center"></p>
+        <div class="form-group">
+            @Html.Label(" ", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="radio-inline">
+                    @Html.RadioButton("lockdata", "Unlock", new { id = "Unlock" }) <label>Unlock</label>
+                </div>
+                <div class="radio-inline">
+                    @Html.RadioButton("lockdata", "Lock", new { id = "Lock" }) <label>Lock</label>
+                </div>
+            </div>
+        </div>
+        <br />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink("Back to List", "Index") |
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

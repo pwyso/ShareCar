@@ -19,7 +19,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 @*@Html.ActionLink("Share Car", "Index", "Home", null, new { @class = "navbar-brand" })*@
-                <a class="navbar-brand" style="font-size:14px" href="/Home/Index"><span class="glyphicon glyphicon-home" > Share Car</span></a>
+                <a class="navbar-brand" style="font-size:14px" href="/Home/Index"><span class="glyphicon glyphicon-home"> Share Car</span></a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -27,6 +27,9 @@
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
 
+                    @{
+                        var Site = " MyTwitterSite";
+                    }
                     @* Menu displayed for all authenticated users *@
                     @if (Request.IsAuthenticated)
                     {
@@ -46,6 +49,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("Leave", "MyBookings", "SeatBookings")</li>
+                                @*<li>@Html.ActionLink("Leave to Seeker", "Received", "SeatBookings")</li>*@
                                 <li>@Html.ActionLink("Received", "Received", "Feedbacks")</li>
                             </ul>
                         </li>
@@ -83,19 +87,24 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jqueryui")
     <script>
-    $(function () {
-        $(".jqueryui-marker-datepicker").datepicker({
-            dateFormat: "yy/mm/dd",
-            changeYear: true,
-            showOn: "button"
+        $(function () {
+            $(".jqueryui-marker-datepicker").datepicker({
+                dateFormat: "yy/mm/dd",
+                changeYear: true,
+                minDate: 0,
+                showOn: "button"
             }).css("display", "inline-block")
-            .next("button").button({
-                icons: { primary: "ui-icon-calendar"},
-                label: "Select a date",
-                text: false
-            });
+                .next("button").button({
+                    icons: { primary: "ui-icon-calendar" },
+                    label: "Select a date",
+                    text: false
+                });
         });
     </script>
+    <script type="text/javascript">
+        $(document).ready(function () { $("#ShowUntil").datepicker('option', 'minDate', new Date()); });
+    </script>
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -51,14 +51,12 @@ namespace ShareCar.Controllers
             }
         }
 
-        //
         // GET: /Roles/
         public ActionResult Index()
         {
             return View(RoleManager.Roles);
         }
 
-        //
         // GET: /Roles/Details/5
         public async Task<ActionResult> Details(string id)
         {
@@ -84,14 +82,12 @@ namespace ShareCar.Controllers
             return View(role);
         }
 
-        //
         // GET: /Roles/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        //
         // POST: /Roles/Create
         [HttpPost]
         public async Task<ActionResult> Create(RoleViewModel roleViewModel)
@@ -110,7 +106,6 @@ namespace ShareCar.Controllers
             return View();
         }
 
-        //
         // GET: /Roles/Edit/Admin
         public async Task<ActionResult> Edit(string id)
         {
@@ -127,7 +122,6 @@ namespace ShareCar.Controllers
             return View(roleModel);
         }
 
-        //
         // POST: /Roles/Edit/5
         [HttpPost]
 
@@ -144,7 +138,6 @@ namespace ShareCar.Controllers
             return View();
         }
 
-        //
         // GET: /Roles/Delete/5
         public async Task<ActionResult> Delete(string id)
         {
@@ -160,7 +153,6 @@ namespace ShareCar.Controllers
             return View(role);
         }
 
-        //
         // POST: /Roles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

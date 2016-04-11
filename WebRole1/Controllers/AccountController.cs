@@ -68,6 +68,17 @@ namespace ShareCar.Controllers
                 return View(model);
             }
 
+            // Require the user to have a confirmed email before they can log on.
+            var user = await UserManager.FindByNameAsync(model.Email);
+            if (user != null)
+            {
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                {
+                    ViewBag.errorMessage = "You must have a confirmed email to log on.";
+                    return View("Error");
+                }
+            }
+
             // This doesn't count login failures towards lockout only two factor authentication
             // To enable password failures to trigger lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
@@ -143,15 +154,16 @@ namespace ShareCar.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name , PhoneNumber = model.PhoneNumber, Age = model.Age, IsSmoker = model.IsSmoker };
+                var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name,
+                            PhoneNumber = model.PhoneNumber, Age = model.Age, IsSmoker = model.IsSmoker };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
-                    ViewBag.Link = callbackUrl;
-                    return View("DisplayEmail");
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account",
+                        "Please confirm your account on &quotShare Car&quot by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+                    return View("Info");
                 }
                 AddErrors(result);
             }

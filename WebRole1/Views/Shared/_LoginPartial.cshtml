@@ -7,7 +7,7 @@
         <ul class="nav navbar-nav navbar-right">
             <li>
                 @{
-                    @* find logged-in user and display name in top navig. bar *@
+                    @* find logged-in user and display name in the top navig. bar *@
                     ApplicationDbContext db = new ApplicationDbContext();
                     var id = User.Identity.GetUserId();
                     var user = db.Users.Find(id);

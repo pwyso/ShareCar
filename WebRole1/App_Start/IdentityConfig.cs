@@ -11,6 +11,10 @@ using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web;
 using System.Data.Entity.Migrations;
+using SendGrid;
+using System.Net;
+using System.Configuration;
+using System.Diagnostics;
 
 namespace ShareCar.Models
 {
@@ -85,10 +89,40 @@ namespace ShareCar.Models
 
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            await configSendGridasync(message);
+        }
+
+        // SendGrid NuGet package must be installed (SMS service)
+        private async Task configSendGridasync(IdentityMessage message)
+        {
+            var myMessage = new SendGridMessage();
+            myMessage.AddTo(message.Destination);
+            myMessage.From = new System.Net.Mail.MailAddress(
+                                "no-reply@sharecar.org", "Share Car");
+            myMessage.Subject = message.Subject;
+            myMessage.Text = message.Body;
+            myMessage.Html = message.Body;
+
+            var credentials = new NetworkCredential(
+                       ConfigurationManager.AppSettings["mailAccount"],
+                       ConfigurationManager.AppSettings["mailPassword"]
+                       );
+
+            // Create a Web transport for sending email.
+            var transportWeb = new Web(credentials);
+
+            // Send the email.
+            if (transportWeb != null)
+            {
+                await transportWeb.DeliverAsync(myMessage);
+            }
+            else
+            {
+                Trace.TraceError("Failed to create Web transport.");
+                await Task.FromResult(0);
+            }
         }
     }
 
@@ -103,16 +137,15 @@ namespace ShareCar.Models
 
     // Drops and creates Database. Then populates it with sample data.
     // Two options to pick: DropCreateDatabaseIfModelChanges or DropCreateDatabaseAlways
-
     public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     //public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {
-            // Create admin user and Admin role for the application. Then assign user to Admin role.
+
             var UserManager = new UserManager<User>(new UserStore<User>(context));
             var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-
+            // Create admin user and Admin role for the application. Then assign "admin" to Admin role.
             const string roleName = "Admin";
             const string nickName = "admin";
             const string userName = "admin@sharecar.org";
@@ -137,10 +170,10 @@ namespace ShareCar.Models
             // Create sample users
             var users = new List<User>
             {
-                new User { UserName = "mary@gmail.com", Email = "mary@gmail.com", EmailConfirmed = true, Name = "Mary", PhoneNumber = "087111111", Age = 29, IsSmoker = IsSmoking.No, RatingAvg = null },
-                new User { UserName = "adam@gmail.com", Email = "adam@gmail.com", EmailConfirmed = true, Name = "Adam", PhoneNumber = "087234465", Age = 22, IsSmoker = IsSmoking.No, RatingAvg = null },
-                new User { UserName = "lucy@gmail.com", Email = "lucy@gmail.com", EmailConfirmed = true, Name = "Lucy", PhoneNumber = "0868734627", Age = 46, IsSmoker = IsSmoking.No, RatingAvg = null },
-                new User { UserName = "steven@gmail.com", Email = "steven@gmail.com",EmailConfirmed = true, Name = "Steven", PhoneNumber = "0896743368", Age = 33, IsSmoker = IsSmoking.Yes, RatingAvg = null }
+                new User { UserName = "mary@gmail.com", Email = "mary@gmail.com", EmailConfirmed = true, LockoutEnabled = true, Name = "Mary", PhoneNumber = "0871111111", Age = 29, IsSmoker = IsSmoking.No, RatingAvg = null },
+                new User { UserName = "adam@gmail.com", Email = "adam@gmail.com", EmailConfirmed = true, LockoutEnabled = true, Name = "Adam", PhoneNumber = "0872222222", Age = 22, IsSmoker = IsSmoking.No, RatingAvg = null },
+                new User { UserName = "lucy@gmail.com", Email = "lucy@gmail.com", EmailConfirmed = true, LockoutEnabled = true, Name = "Lucy", PhoneNumber = "0863333333", Age = 46, IsSmoker = IsSmoking.No, RatingAvg = null },
+                new User { UserName = "steven@gmail.com", Email = "steven@gmail.com", EmailConfirmed = true,  LockoutEnabled = true, Name = "Steven", PhoneNumber = "0894444444", Age = 33, IsSmoker = IsSmoking.Yes, RatingAvg = null }
             };
 
             foreach (var u in users)

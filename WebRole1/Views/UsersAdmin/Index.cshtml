@@ -17,6 +17,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Email)
         </th>
+        <th>
+            @Html.Label("Locked")
+        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -28,6 +31,18 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
+            @if (item.LockoutEndDateUtc != null)
+            {
+            <td>
+                @Html.CheckBox("anything", true, new { @disabled = "disabled" })
+            </td>
+            }
+            @if (item.LockoutEndDateUtc == null)
+            {
+                <td>
+                    @Html.CheckBox("anything", false, new { @disabled = "disabled" })
+                </td>
+            }
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |

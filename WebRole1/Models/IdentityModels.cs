@@ -12,13 +12,17 @@ namespace ShareCar.Models
     public class User : IdentityUser
     {
         // Added properties to IdentityUser class
-        [Display(Name = "Name")]
+
+        [Required(AllowEmptyStrings = false)]
+        [Display(Name = "Name"), StringLength(50, ErrorMessage = "Max. 50 characters allowed.")]
         public string Name { get; set; }
 
+        [Required]
         [Display(Name = "Smoker")]
         public IsSmoking IsSmoker { get; set; }
 
-        [Display(Name = "Age")]
+        [Required]
+        [Display(Name = "Age"), Range(18, 99, ErrorMessage = "You must be min. 18 years old.")]
         public int Age { get; set; }
 
         [Display(Name = "Rating")]

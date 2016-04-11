@@ -6,12 +6,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Data;
+using System.Data.Entity;
+using System.Net;
 
 namespace ShareCar.Controllers
 {
     [Authorize]
     public class ManageController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         public ManageController()
         {
         }
@@ -46,8 +50,11 @@ namespace ShareCar.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
 
+
             var model = new IndexViewModel
             {
+
+                User = await UserManager.FindByIdAsync(User.Identity.GetUserId()),
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(User.Identity.GetUserId()),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(User.Identity.GetUserId()),
@@ -289,6 +296,58 @@ namespace ShareCar.Controllers
                 CurrentLogins = userLogins,
                 OtherLogins = otherLogins
             });
+        }
+
+        // GET: /Manage/EditProfile/5
+        public async Task<ActionResult> EditProfile(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = await UserManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(new EditUserViewModel()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                PhNo = user.PhoneNumber,
+                Name = user.Name,
+                Age = user.Age,
+                Smoker = user.IsSmoker
+                
+            });
+        }
+
+        // POST: /Manage/EditProfile/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditProfile([Bind(Include = "Name,Email,Id,PhNo,Age,Smoker")] EditUserViewModel editUser)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindByIdAsync(editUser.Id);
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+
+                user.UserName = editUser.Email;
+                user.Email = editUser.Email;
+                user.Name = editUser.Name;
+                user.PhoneNumber = editUser.PhNo;
+                user.Age = editUser.Age;
+                user.IsSmoker = editUser.Smoker;
+                var result = await UserManager.UpdateAsync(user);
+
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError("", "Something failed.");
+            return View();
         }
 
         // POST: /Manage/LinkLogin
