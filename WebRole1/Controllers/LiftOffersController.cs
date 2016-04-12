@@ -43,17 +43,10 @@ namespace ShareCar.Controllers
 
             foreach (var off in offersAll)
             {
-                // If EndDate null, then add offer to list of not expired offers
-                if (off.EndDate == null)
-                {
-                    offersNotExpired.Add(off);
-                }
-                // Get EndDate from offer. If null then set default - 01/01/0001
-                DateTime endDate = off.EndDate.GetValueOrDefault();
-                // Check if EndDate is older then current date (offer expired ?)
-                int result = DateTime.Compare(endDate, DateTime.Today);
-                // If EndDate not older, then add offer to list of not expired offers
-                if (result >= 0)
+                // Check if EndDate is older then current date. If date null then set default - 01/01/0001
+                int result = DateTime.Compare(off.EndDate.GetValueOrDefault(), DateTime.Today);
+                // If EndDate greater or null, add offer to list of not expired offers
+                if ((result >= 0) || (off.EndDate == null))
                 {
                     offersNotExpired.Add(off);
                 }
@@ -61,11 +54,13 @@ namespace ShareCar.Controllers
 
             // Pass only not expired offers
             var offers = offersNotExpired.AsEnumerable();
-
+            
             if (!String.IsNullOrEmpty(searchString))
             {
-                offers = offers.Where(o => o.EndPointName == searchString);
+                // Find offers in EndPointName that match search criteria
+                offers = offers.Where(o => o.EndPointName.ToLower() == searchString.ToLower());
             }
+            // Change order when To/From clicked on the view page
             switch (sortOrder)
             {
                 case "start_name_desc":
@@ -84,76 +79,6 @@ namespace ShareCar.Controllers
 
             return View(offers);
         }
-        /*
-                // GET: LiftOffers/All searchString = filter, sortOrder = sort by StartPointName or EndPointName
-                [AllowAnonymous]
-                public ActionResult All(string searchString, string currentFilter, string sortOrder)
-                {
-                    ViewBag.CurrentSort = sortOrder;
-                    ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "start_name_desc" : "";
-                    ViewBag.DateSortParm = sortOrder == "end_name" ? "end_name_desc" : "end_name";
-
-                    if (searchString != null)
-                    {
-                        ViewBag.CurrentFilter = searchString;
-                    }
-                    else
-                    {
-                        searchString = currentFilter;
-                    }
-
-                    ViewBag.CurrentFilter = searchString;
-
-                    //var offer = from s in db.LiftOffers select s;
-                    //var offers = db.LiftOffers.AsEnumerable();
-
-                    var offersAll = db.LiftOffers.Where(o => o.SeatsAvailable > 0).ToList();
-                    var offersNotExpired = new List<LiftOffer>();
-
-                    foreach (var off in offersAll)
-                    {
-                        // If EndDate null, then add offer to list of not expired offers
-                        if (off.EndDate == null)
-                        {
-                            offersNotExpired.Add(off);
-                        }
-                        // Get EndDate from offer. If null then set default - 01/01/0001
-                        DateTime endDate = off.EndDate.GetValueOrDefault();
-                        // Check if EndDate is older then current date (offer expired ?)
-                        int result = DateTime.Compare(endDate, DateTime.Today);
-                        // If EndDate not older, then add offer to list of not expired offers
-                        if ( result >= 0)
-                        {
-                            offersNotExpired.Add(off);
-                        }
-                    }
-
-                    // Pass only not expired offers
-                    var offers = offersNotExpired.AsEnumerable();
-
-                    if (!String.IsNullOrEmpty(searchString))
-                    {
-                        offers = offers.Where(o => o.EndPointName == searchString);
-                    }
-                    switch (sortOrder)
-                    {
-                        case "start_name_desc":
-                            offers = offers.OrderByDescending(o => o.StartPointName);
-                            break;
-                        case "end_name":
-                            offers = offers.OrderBy(o => o.EndPointName);
-                            break;
-                        case "end_name_desc":
-                            offers = offers.OrderByDescending(o => o.EndPointName);
-                            break;
-                        default:
-                            offers = offers.OrderBy(o => o.StartPointName);
-                            break;
-                    }
-
-                    return View(offers);
-                }
-        */
 
         // GET: LiftOffers/UserOffers
         public async Task<ActionResult> UserOffers()

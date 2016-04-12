@@ -21,14 +21,13 @@
         seatsNo.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
     }
 }
-<h2>Create</h2>
+<h2>Create Lift Offer</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Lift Offer</h4>
         <hr />
         @Html.ValidationSummary("", new { @class = "text-danger" })
         <div class="form-group">

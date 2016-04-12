@@ -48,8 +48,8 @@
         </dd>
     </dl>
 </div>
-<div class="row">
-    <div class="col-md-8">
+<div class="form-group">
+    <div class="col-md-offset-1 col-md-10">
         @Html.ActionLink("Edit profile", "EditProfile", new { id = Model.User.Id })
         &nbsp;|&nbsp;
         @if (Model.HasPassword)
@@ -60,7 +60,11 @@
         {
             @Html.ActionLink("Pick a password", "SetPassword")
         }
-        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+<!-- Enable for Two Factor Authentication -->
 @*        <p>
             Phone Number: @(Model.PhoneNumber ?? "None") [
             @if (Model.PhoneNumber != null)

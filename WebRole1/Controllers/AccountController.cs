@@ -156,18 +156,25 @@ namespace ShareCar.Controllers
             {
                 var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name,
                             PhoneNumber = model.PhoneNumber, Age = model.Age, IsSmoker = model.IsSmoker };
+                // To enable email verification, comment this line //
+                //user.EmailConfirmed = true;
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    // To enable email verification, comment this line //
+                    //ViewBag.Info = "Welcome to the Share Car. Now, you can log in.";
+
+                    // To enable email verification, uncomment below 4 lines //
+
                     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     await UserManager.SendEmailAsync(user.Id, "Confirm your account",
                         "Please confirm your account on &quotShare Car&quot by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+
                     return View("Info");
                 }
                 AddErrors(result);
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -207,8 +214,10 @@ namespace ShareCar.Controllers
                 }
 
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
+                var callbackUrl = Url.Action("ResetPassword", "Account",
+                    new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Reset Password",
+                    "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
                 ViewBag.Link = callbackUrl;
                 return View("ForgotPasswordConfirmation");
             }

@@ -2,5 +2,13 @@
     ViewBag.Title = "Info";
 }
 <h2>@ViewBag.Title.</h2>
+
+@if (ViewBag.Info != null)
+{
+    <h4>@ViewBag.Info</h4>
+}
+else
+{
 <h4>Check your email and confirm your account. </h4>
 <p>You must be confirmed before you can log in.</p>
+}

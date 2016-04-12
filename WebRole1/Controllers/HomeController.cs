@@ -24,17 +24,10 @@ namespace ShareCar.Controllers
 
             foreach (var off in offersAll)
             {
-                // If EndDate null, then add offer to list of not expired offers
-                if (off.EndDate == null)
-                {
-                    offersNotExpired.Add(off);
-                }
-                // Get EndDate from offer. If null then set default - 01/01/0001
-                DateTime endDate = off.EndDate.GetValueOrDefault();
-                // Check if EndDate is older then current date (offer expired ?)
-                int result = DateTime.Compare(endDate, DateTime.Today);
-                // If EndDate not older, then add offer to list of not expired offers
-                if (result >= 0)
+                // Check if EndDate is older then current date. If date null then set default - 01/01/0001
+                int result = DateTime.Compare(off.EndDate.GetValueOrDefault(), DateTime.Today);
+                // If EndDate greater or null, add offer to list of not expired offers
+                if ((result >= 0) || (off.EndDate == null))
                 {
                     offersNotExpired.Add(off);
                 }

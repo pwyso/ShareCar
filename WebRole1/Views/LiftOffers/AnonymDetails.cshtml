@@ -131,11 +131,14 @@
 </div>
 
 <div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-        @Html.ActionLink("Back to List", "All", "LiftOffers") |
+    <div class="col-md-offset-1 col-md-10">
+        @Html.ActionLink("Back to List", "All", "LiftOffers")
+        &nbsp;|&nbsp;
         @Html.ActionLink("Book Seat", "Create", "SeatBookings", new {
                             id = Model.LiftOfferID }, new { @class = "btn btn-default" })
                             
     </div>
-</div> 
+</div>
+<div class="row">
+</div>
 
