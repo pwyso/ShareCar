@@ -19,16 +19,16 @@ namespace ShareCar.Models
         public DateTime CreateTime { get { return DateTime.Now; } set { } }
 
         [Required(AllowEmptyStrings = false)]
-        [Display(Name = "From"), StringLength(50, ErrorMessage = "Max. 50 characters allowed.")]
+        [Display(Name = "From"), StringLength(50, ErrorMessage = "From: max. 50 characters allowed.")]
         public string StartPointName { get; set; }
 
         [Required(AllowEmptyStrings = false)]
-        [Display(Name = "To"), StringLength(50, ErrorMessage = "Max. 50 characters allowed.")]
+        [Display(Name = "To"), StringLength(50, ErrorMessage = "To: max. 50 characters allowed.")]
         public string EndPointName { get; set; }
 
         [Required]
         [Display(Name = "Valid From")]
-        [DataType(DataType.Date, ErrorMessage = "Invalid Date")]
+        [DataType(DataType.Date, ErrorMessage = "Valid From: invalid date.")]
         public DateTime StartDate { get; set; }
 
         // Could be null (no expiry date)
@@ -41,6 +41,7 @@ namespace ShareCar.Models
         public string DepartureHour { get; set; }
 
         [Required]
+        [Display(Name = "Dep. Time")]
         public string DepartureMin { get; set; }
 
         [Required]
@@ -48,18 +49,19 @@ namespace ShareCar.Models
         public string ArrivalHour { get; set; }
 
         [Required]
+        [Display(Name = "Arr. Time")]
         public string ArrivalMin { get; set; }
 
         [Required(AllowEmptyStrings = false)]
-        [Display(Name = "Car Make"), StringLength(20, ErrorMessage = "Max. 20 characters allowed.")]
+        [Display(Name = "Car Make"), StringLength(20, ErrorMessage = "Car Make: max. 20 characters allowed.")]
         public string CarMake { get; set; }
 
         [Required(AllowEmptyStrings = false)]
-        [Display(Name = "Car Model"), StringLength(20, ErrorMessage = "Max. 20 characters allowed.")]
+        [Display(Name = "Car Model"), StringLength(20, ErrorMessage = "Car Model: max. 20 characters allowed.")]
         public string CarModel { get; set; }
 
         [Required]
-        [Display(Name = "Seats Avail."), Range(1,10, ErrorMessage = "Max no. of seats is 10.")]
+        [Display(Name = "Seats Avail."), Range(1,10, ErrorMessage = "Seats Avail: max no. of seats is 10.")]
         public int SeatsAvailable { get; set; }
      
         // FK of User table

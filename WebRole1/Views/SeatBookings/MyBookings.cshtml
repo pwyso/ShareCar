@@ -83,14 +83,19 @@
             <td>
                 @Html.DisplayFor(model => item.User.PhoneNumber)
             </td>
-            <!-- display link for accepted offers only -->
-            @if (item.SeatBooking.IsAccepted == true)
-            {
-                TempData["Role"] = "Offerer";
-                <td>
-                    @Html.ActionLink("Feedback", "Create", "Feedbacks", new { id = item.User.Id }, null)
-                </td>
-            }
+            <td>
+                <!-- display link for accepted offers only -->
+                @if (item.SeatBooking.IsAccepted == true)
+                {
+                    <!-- display if feedback not left -->
+                    if (item.Feedback == null)
+                    {
+                        @Html.ActionLink("Feedback", "Create", "Feedbacks")
+                        // Passing all related to SeatBooking info, to "~/Feedbacks/Create"
+                        TempData["model"] = item;
+                    }
+                }
+            </td>
         </tr>
     }
 </table>

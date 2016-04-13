@@ -14,6 +14,7 @@ namespace ShareCar.Models
 
         // FK of LiftOffer table
         public int LiftOfferID { get; set; }
+        // Relationship between tables - Days:7 <=> 1:LiftOffer
         public virtual LiftOffer LiftOffer { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿@using ShareCar.Models
-@*@using Microsoft.AspNet.Identity*@
 @model ShareCar.Models.Feedback
 
 @{
@@ -12,7 +11,7 @@
     {
         ratingNo.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
     }
-    User user = ViewBag.UserID;
+    User user = ViewBag.User;
 }
 
 <h2>Feedback for:</h2>
@@ -51,8 +50,9 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.ValidationSummary( true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.UserID )
+        @Html.HiddenFor(model => model.SeatBookingID)
         <hr />
         <div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })

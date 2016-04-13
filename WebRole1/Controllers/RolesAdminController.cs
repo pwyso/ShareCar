@@ -51,13 +51,13 @@ namespace ShareCar.Controllers
             }
         }
 
-        // GET: /Roles/
+        // GET: /RolesAdmin/Index        - Display all roles
         public ActionResult Index()
         {
             return View(RoleManager.Roles);
         }
 
-        // GET: /Roles/Details/5
+        // GET: /RolesAdmin/Details/5        - Display role details
         public async Task<ActionResult> Details(string id)
         {
             if (id == null)
@@ -65,9 +65,8 @@ namespace ShareCar.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var role = await RoleManager.FindByIdAsync(id);
-            // Get the list of Users in this Role
+            // Create the list for users in the role
             var users = new List<User>();
-
             // Get the list of Users in this Role
             foreach (var user in UserManager.Users.ToList())
             {
@@ -76,20 +75,21 @@ namespace ShareCar.Controllers
                     users.Add(user);
                 }
             }
-
+            // Pass list of users to display in a view
             ViewBag.Users = users;
             ViewBag.UserCount = users.Count();
             return View(role);
         }
 
-        // GET: /Roles/Create
+        // GET: /RolesAdmin/Create       - Create new role
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: /Roles/Create
+        // POST: /RolesAdmin/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(RoleViewModel roleViewModel)
         {
             if (ModelState.IsValid)
@@ -106,7 +106,7 @@ namespace ShareCar.Controllers
             return View();
         }
 
-        // GET: /Roles/Edit/Admin
+        // GET: /RolesAdmin/Edit/admin      - Edit role
         public async Task<ActionResult> Edit(string id)
         {
             if (id == null)
@@ -122,9 +122,8 @@ namespace ShareCar.Controllers
             return View(roleModel);
         }
 
-        // POST: /Roles/Edit/5
+        // POST: /RolesAdmin/Edit/5
         [HttpPost]
-
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Name,Id")] RoleViewModel roleModel)
         {
@@ -138,7 +137,7 @@ namespace ShareCar.Controllers
             return View();
         }
 
-        // GET: /Roles/Delete/5
+        // GET: /Roles/Delete/5     - Delete role
         public async Task<ActionResult> Delete(string id)
         {
             if (id == null)

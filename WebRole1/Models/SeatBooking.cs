@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShareCar.Models
 {
@@ -17,7 +13,7 @@ namespace ShareCar.Models
         public DateTime CreateTime { get { return DateTime.Now; } set { } }
 
         [Required]
-        [Display(Name = "Seats Req."), Range(0, 10, ErrorMessage = "Max no. of seats is 10.")]
+        [Display(Name = "Seats Req."), Range(0, 10, ErrorMessage = "Seats Req: max no. of seats is 10.")]
         public int SeatsRequest { get; set; }
 
         public string OffererID { get; set; }

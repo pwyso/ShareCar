@@ -5,11 +5,9 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using ShareCar.Models;
 using Microsoft.AspNet.Identity;
-using System.Collections.ObjectModel;
 
 namespace ShareCar.Controllers
 {
@@ -18,6 +16,8 @@ namespace ShareCar.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        // GET: LiftOffers/All      - Display all lift offers ordered by startPoint name ascending
+        // searchString = filter, sortOrder = sort by EndPointName
         [AllowAnonymous]
         public async Task<ActionResult> All(string searchString, string currentFilter, string sortOrder)
         {
@@ -35,12 +35,10 @@ namespace ShareCar.Controllers
             }
 
             ViewBag.CurrentFilter = searchString;
-
             // Get lift offers with min. 1 seat available
             var offersAll = await db.LiftOffers.Where(o => o.SeatsAvailable > 0).ToListAsync();
             // Create list with not expired offers to display in a view
             var offersNotExpired = new List<LiftOffer>();
-
             foreach (var off in offersAll)
             {
                 // Check if EndDate is older then current date. If date null then set default - 01/01/0001
@@ -51,13 +49,11 @@ namespace ShareCar.Controllers
                     offersNotExpired.Add(off);
                 }
             }
-
-            // Pass only not expired offers
-            var offers = offersNotExpired.AsEnumerable();
-            
+           // Pass only not expired offers
+            var offers = offersNotExpired.AsEnumerable();           
             if (!String.IsNullOrEmpty(searchString))
             {
-                // Find offers in EndPointName that match search criteria
+                // Find offers where EndPointName matches search criteria
                 offers = offers.Where(o => o.EndPointName.ToLower() == searchString.ToLower());
             }
             // Change order when To/From clicked on the view page
@@ -76,11 +72,10 @@ namespace ShareCar.Controllers
                     offers = offers.OrderBy(o => o.StartPointName);
                     break;
             }
-
             return View(offers);
         }
 
-        // GET: LiftOffers/UserOffers
+        // GET: LiftOffers/UserOffers       - Display lift offers for user (owner)
         public async Task<ActionResult> UserOffers()
         {
             var id = User.Identity.GetUserId();
@@ -88,8 +83,7 @@ namespace ShareCar.Controllers
             return View(await liftOffers.ToListAsync());
         }
 
-
-        // GET: LiftOffers/Details/5
+        // GET: LiftOffers/Details/5        - Display lift offer details for authenticated user
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -102,12 +96,13 @@ namespace ShareCar.Controllers
                 return HttpNotFound();
             }
             // Get names of selected days only to display in LiftOffer details
-            var selectedDays = db.Days.Where(d => d.LiftOfferID == id && d.Selected == true).Select(d => d.DayName).ToList();
+            var selectedDays = db.Days.Where(
+                d => d.LiftOfferID == id && d.Selected == true).Select(d => d.DayName).ToList();
             ViewBag.SelectedDays = selectedDays;
             return View(liftOffer);
         }
 
-        // GET: LiftOffers/AnonymDetails/5
+        // GET: LiftOffers/AnonymDetails/5      - Display lift offer details for non authenticated user
         [AllowAnonymous]
         public async Task<ActionResult> AnonymDetails(int? id)
         {
@@ -121,12 +116,13 @@ namespace ShareCar.Controllers
                 return HttpNotFound();
             }
             // Get names of selected days only to display in LiftOffer details
-            var selectedDays = db.Days.Where(d => d.LiftOfferID == id && d.Selected == true).Select(d => d.DayName).ToList();
+            var selectedDays = db.Days.Where(
+                d => d.LiftOfferID == id && d.Selected == true).Select(d => d.DayName).ToList();
             ViewBag.SelectedDays = selectedDays;
             return View(liftOffer);
         }
 
-        // GET: LiftOffers/Create
+        // GET: LiftOffers/Create       - Create lift offer
         public ActionResult Create()
         {
             var offer = new LiftOffer();
@@ -134,7 +130,7 @@ namespace ShareCar.Controllers
             return View(offer);
         }
 
-        // POST: LiftOffers/Create
+        // POST: LiftOffers/Create      - Create lift offer (extra passed selected days, from view)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include =
@@ -148,7 +144,7 @@ namespace ShareCar.Controllers
             {
                 db.LiftOffers.Add(liftOffer);
                 await db.SaveChangesAsync();
-
+                // Store newly created list of days for selected offer
                 foreach (Day d in days)
                 {
                     d.LiftOfferID = liftOffer.LiftOfferID;
@@ -160,7 +156,7 @@ namespace ShareCar.Controllers
             return View(liftOffer);
         }
 
-        // GET: LiftOffers/Edit/5
+        // GET: LiftOffers/Edit/5       - Edit lift offer
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -176,7 +172,7 @@ namespace ShareCar.Controllers
             return View(liftOffer);
         }
 
-        // POST: LiftOffers/Edit/5
+        // POST: LiftOffers/Edit/5      - Edit lift offer (extra passed selected days, from view)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include =
@@ -187,7 +183,7 @@ namespace ShareCar.Controllers
             {
                 db.Entry(liftOffer).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-
+                // Store modified list of days for selected offer
                 foreach (Day d in days)
                 {
                     d.LiftOfferID = liftOffer.LiftOfferID;
@@ -199,7 +195,7 @@ namespace ShareCar.Controllers
             return View(liftOffer);
         }
 
-        // GET: LiftOffers/Delete/5
+        // GET: LiftOffers/Delete/5     - Delete lift offer
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -214,7 +210,7 @@ namespace ShareCar.Controllers
             return View(liftOffer);
         }
 
-        // POST: LiftOffers/Delete/5
+        // POST: LiftOffers/Delete/5        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)

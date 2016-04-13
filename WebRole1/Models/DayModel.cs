@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
@@ -18,12 +15,15 @@ namespace ShareCar.Models
         public List<Day> Days { get; set; }
     }
 
+    // Days keept in memory instead of keeping in DB
     public static class DayRepository
     {
+        // Get selected day
         public static Day Get(int id)
         {
             return GetAll().FirstOrDefault(x => x.DayID.Equals(id));
         }
+        // Get all days
         public static IEnumerable<Day> GetAll()
         {
             return new List<Day>

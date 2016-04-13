@@ -16,12 +16,11 @@ namespace ShareCar.Controllers
         // GET: Home/Index
         public async Task<ActionResult> Index()
         {
-            // Get lift offers with min. 1 seat available, order by descending - from most recent to oldest
+            // Get lift offers with min. 1 seat available, order by descending - most recent to oldest
             var offersAll = await db.LiftOffers.OrderByDescending(
                             o => o.LiftOfferID).Where(o => o.SeatsAvailable > 0).ToListAsync();
             // Create list with not expired offers to display in a view
             var offersNotExpired = new List<LiftOffer>();
-
             foreach (var off in offersAll)
             {
                 // Check if EndDate is older then current date. If date null then set default - 01/01/0001
@@ -32,6 +31,7 @@ namespace ShareCar.Controllers
                     offersNotExpired.Add(off);
                 }
             }
+            // Display only 3 most recent offers
             return View(offersNotExpired.Take(3).ToList());
         }
 

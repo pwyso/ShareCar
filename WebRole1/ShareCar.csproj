@@ -288,6 +288,18 @@
     <Compile Include="Migrations\201604101032115_AddedAnnotations.Designer.cs">
       <DependentUpon>201604101032115_AddedAnnotations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604122057202_AddedSeatBookID.cs" />
+    <Compile Include="Migrations\201604122057202_AddedSeatBookID.Designer.cs">
+      <DependentUpon>201604122057202_AddedSeatBookID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604130946198_AddedLeftByID.cs" />
+    <Compile Include="Migrations\201604130946198_AddedLeftByID.Designer.cs">
+      <DependentUpon>201604130946198_AddedLeftByID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604131930092_ChangedDataAnnot.cs" />
+    <Compile Include="Migrations\201604131930092_ChangedDataAnnot.Designer.cs">
+      <DependentUpon>201604131930092_ChangedDataAnnot.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
@@ -497,6 +509,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604101032115_AddedAnnotations.resx">
       <DependentUpon>201604101032115_AddedAnnotations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604122057202_AddedSeatBookID.resx">
+      <DependentUpon>201604122057202_AddedSeatBookID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604130946198_AddedLeftByID.resx">
+      <DependentUpon>201604130946198_AddedLeftByID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604131930092_ChangedDataAnnot.resx">
+      <DependentUpon>201604131930092_ChangedDataAnnot.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

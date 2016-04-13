@@ -64,18 +64,18 @@ namespace ShareCar.Models
     {
 
         [Required]
-        [StringLength(30, ErrorMessage = "Max. lenght of the Name is 30 characters.")]
+        [StringLength(30, ErrorMessage = "Name: max. lenght of the Name is 30 characters.")]
         [Display(Name = "Name")]
         public string Name { get; set; }
 
         [Required]
         // validate phone number: only numbers allowed with lenght 9 to 12, eg. 018268043, 035386112233
-        [RegularExpression("[0-9]{8,12}", ErrorMessage = "No spaces allowed, 9 - 12 digits.")]
+        [RegularExpression("[0-9]{8,12}", ErrorMessage = "Phone No: no spaces allowed, 8 - 12 digits.")]
         [Display(Name = "Phone No.")]
         public string PhoneNumber { get; set; }
 
         [Required]
-        [Range(18, 100, ErrorMessage = "You must be at least 18 years old.")]
+        [Range(18, 99, ErrorMessage = "Age: you must be at least 18 years old.")]
         [Display(Name = "Age")]
         public int Age { get; set; }
 

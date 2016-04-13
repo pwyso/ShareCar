@@ -1,9 +1,6 @@
 ﻿using ShareCar.Models;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.AspNet.Identity.EntityFramework;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -52,13 +49,13 @@ namespace ShareCar.Controllers
             }
         }
 
-        // GET: /Users/
+        // GET: /Users/Index        - Display all users
         public async Task<ActionResult> Index()
         {
             return View(await UserManager.Users.ToListAsync());
         }
 
-        // GET: /Users/Details/5
+        // GET: /Users/Details/5        - Display user details
         public async Task<ActionResult> Details(string id)
         {
             if (id == null)
@@ -72,7 +69,7 @@ namespace ShareCar.Controllers
             return View(user);
         }
 
-        // GET: /Users/Create
+        // GET: /Users/Create       - Create new user
         public async Task<ActionResult> Create()
         {
             //Get the list of Roles
@@ -80,15 +77,15 @@ namespace ShareCar.Controllers
             return View();
         }
 
-        // POST: /Users/Create
+        // POST: /Users/Create      - Create new user and/or assaign the role
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(RegisterViewModel userViewModel, params string[] selectedRoles)
         {
             if (ModelState.IsValid)
             {
                 var user = new User { UserName = userViewModel.Email, Email = userViewModel.Email };
                 var adminresult = await UserManager.CreateAsync(user, userViewModel.Password);
-
                 //Add User to the selected Roles 
                 if (adminresult.Succeeded)
                 {
@@ -108,7 +105,6 @@ namespace ShareCar.Controllers
                     ModelState.AddModelError("", adminresult.Errors.First());
                     ViewBag.RoleId = new SelectList(RoleManager.Roles, "Name", "Name");
                     return View();
-
                 }
                 return RedirectToAction("Index");
             }
@@ -116,7 +112,7 @@ namespace ShareCar.Controllers
             return View();
         }
 
-        // GET: /Users/Edit/1
+        // GET: /Users/Edit/1       - Edit user
         public async Task<ActionResult> Edit(string id)
         {
             if (id == null)
@@ -128,12 +124,10 @@ namespace ShareCar.Controllers
             {
                 return HttpNotFound();
             }
-
             var userRoles = await UserManager.GetRolesAsync(user.Id);
-
             return View(new EditUserViewModel()
             {
-
+                // Get user details and selected roles to be edited in a view
                 Id = user.Id,
                 Email = user.Email,
                 PhNo = user.PhoneNumber,
@@ -148,10 +142,12 @@ namespace ShareCar.Controllers
             });
         }
 
-        // POST: /Users/Edit/5
+        // POST: /Users/Edit/5      - Edit user and roles (extra passed lockdata from the view)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Name,Email,Id,PhNo,LockoutEndDateUtc")] EditUserViewModel editUser, string lockdata, params string[] selectedRole )
+        public async Task<ActionResult> Edit([Bind(Include = 
+            "Name,Email,Id,PhNo,LockoutEndDateUtc")] EditUserViewModel editUser,
+                string lockdata, params string[] selectedRole )
         {
             if (ModelState.IsValid)
             {
@@ -160,34 +156,30 @@ namespace ShareCar.Controllers
                 {
                     return HttpNotFound();
                 }
-
                 user.UserName = editUser.Email;
                 user.Email = editUser.Email;
                 user.Name = editUser.Name;
                 user.PhoneNumber = editUser.PhNo;
-
+                // Unlock account if "Unlock" selected in the view
                 if (lockdata == "Unlock")
                 {
                     user.LockoutEndDateUtc = null;
                 }
+                // Lock account if "Lock" selected in the view
                 if (lockdata == "Lock")
-                {                   
-                    user.LockoutEndDateUtc = DateTime.UtcNow.AddMonths(3);
+                {      
+                    // Locking account for 1 month             
+                    user.LockoutEndDateUtc = DateTime.UtcNow.AddMonths(1);
                 }
-
                 var userRoles = await UserManager.GetRolesAsync(user.Id);
-
                 selectedRole = selectedRole ?? new string[] { };
-
                 var result = await UserManager.AddToRolesAsync(user.Id, selectedRole.Except(userRoles).ToArray<string>());
-
                 if (!result.Succeeded)
                 {
                     ModelState.AddModelError("", result.Errors.First());
                     return View();
                 }
                 result = await UserManager.RemoveFromRolesAsync(user.Id, userRoles.Except(selectedRole).ToArray<string>());
-
                 if (!result.Succeeded)
                 {
                     ModelState.AddModelError("", result.Errors.First());
@@ -199,7 +191,7 @@ namespace ShareCar.Controllers
             return View();
         }
 
-        // GET: /Users/Delete/5
+        // GET: /Users/Delete/5     - Delete user
         public async Task<ActionResult> Delete(string id)
         {
             if (id == null)
@@ -225,7 +217,6 @@ namespace ShareCar.Controllers
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-
                 var user = await UserManager.FindByIdAsync(id);
                 if (user == null)
                 {

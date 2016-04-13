@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 
 namespace ShareCar.Models
 {
-    // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
+    // You can add profile data for the user by adding more properties to your ApplicationUser class, 
+    // please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class User : IdentityUser
     {
         // Added properties to IdentityUser class
 
         [Required(AllowEmptyStrings = false)]
-        [Display(Name = "Name"), StringLength(50, ErrorMessage = "Max. 50 characters allowed.")]
+        [Display(Name = "Name"), StringLength(30, ErrorMessage = "Name: max. 30 characters allowed.")]
         public string Name { get; set; }
 
         [Required]
@@ -22,7 +23,7 @@ namespace ShareCar.Models
         public IsSmoking IsSmoker { get; set; }
 
         [Required]
-        [Display(Name = "Age"), Range(18, 99, ErrorMessage = "You must be min. 18 years old.")]
+        [Display(Name = "Age"), Range(18, 99, ErrorMessage = "Age: you must be min. 18 years old.")]
         public int Age { get; set; }
 
         [Display(Name = "Rating")]

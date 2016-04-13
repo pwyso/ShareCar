@@ -9,8 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
-using System.Web;
-using System.Data.Entity.Migrations;
 using SendGrid;
 using System.Net;
 using System.Configuration;
@@ -19,7 +17,6 @@ using System.Diagnostics;
 namespace ShareCar.Models
 {
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
-
     public class ApplicationUserManager : UserManager<User>
     {
         public ApplicationUserManager(IUserStore<User> store)
@@ -49,7 +46,7 @@ namespace ShareCar.Models
             // Configure user lockout defaults
             manager.UserLockoutEnabledByDefault = true;
             manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
-            manager.MaxFailedAccessAttemptsBeforeLockout = 5;
+            manager.MaxFailedAccessAttemptsBeforeLockout = 3;
             // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
             // You can write your own provider and plug in here.
             manager.RegisterTwoFactorProvider("PhoneCode", new PhoneNumberTokenProvider<User>
@@ -104,7 +101,7 @@ namespace ShareCar.Models
             myMessage.Subject = message.Subject;
             myMessage.Text = message.Body;
             myMessage.Html = message.Body;
-
+            // email address and password provided in Web.config
             var credentials = new NetworkCredential(
                        ConfigurationManager.AppSettings["mailAccount"],
                        ConfigurationManager.AppSettings["mailPassword"]
@@ -170,10 +167,14 @@ namespace ShareCar.Models
             // Create sample users
             var users = new List<User>
             {
-                new User { UserName = "mary@gmail.com", Email = "mary@gmail.com", EmailConfirmed = true, LockoutEnabled = true, Name = "Mary", PhoneNumber = "0871111111", Age = 29, IsSmoker = IsSmoking.No, RatingAvg = null },
-                new User { UserName = "adam@gmail.com", Email = "adam@gmail.com", EmailConfirmed = true, LockoutEnabled = true, Name = "Adam", PhoneNumber = "0872222222", Age = 22, IsSmoker = IsSmoking.No, RatingAvg = null },
-                new User { UserName = "lucy@gmail.com", Email = "lucy@gmail.com", EmailConfirmed = true, LockoutEnabled = true, Name = "Lucy", PhoneNumber = "0863333333", Age = 46, IsSmoker = IsSmoking.No, RatingAvg = null },
-                new User { UserName = "steven@gmail.com", Email = "steven@gmail.com", EmailConfirmed = true,  LockoutEnabled = true, Name = "Steven", PhoneNumber = "0894444444", Age = 33, IsSmoker = IsSmoking.Yes, RatingAvg = null }
+                new User { UserName = "mary@gmail.com", Email = "mary@gmail.com", EmailConfirmed = true, LockoutEnabled = true,
+                    Name = "Mary", PhoneNumber = "0871111111", Age = 29, IsSmoker = IsSmoking.No, RatingAvg = null },
+                new User { UserName = "adam@gmail.com", Email = "adam@gmail.com", EmailConfirmed = true, LockoutEnabled = true,
+                    Name = "Adam", PhoneNumber = "0872222222", Age = 22, IsSmoker = IsSmoking.No, RatingAvg = null },
+                new User { UserName = "lucy@gmail.com", Email = "lucy@gmail.com", EmailConfirmed = true, LockoutEnabled = true,
+                    Name = "Lucy", PhoneNumber = "0863333333", Age = 46, IsSmoker = IsSmoking.No, RatingAvg = null },
+                new User { UserName = "steven@gmail.com", Email = "steven@gmail.com", EmailConfirmed = true,  LockoutEnabled = true,
+                    Name = "Steven", PhoneNumber = "0894444444", Age = 33, IsSmoker = IsSmoking.Yes, RatingAvg = null }
             };
 
             foreach (var u in users)
@@ -214,9 +215,6 @@ namespace ShareCar.Models
 
             foreach (LiftOffer off in offers)
             {
-                //var offersForUser = context.LiftOffers.Where(
-                //    s => s.User.Id == off.UserID && s.LiftOfferID == off.LiftOfferID).SingleOrDefault();
-
                 context.LiftOffers.Add(off);
                 context.SaveChanges();
             }
@@ -230,11 +228,13 @@ namespace ShareCar.Models
                 {
                     if ((d.DayID == 1) || (d.DayID == 2) || (d.DayID == 3))
                     {
-                        offerDays.Add(new Day { DayID = d.DayID, DayName = d.DayName, Selected = true, LiftOfferID = off.LiftOfferID });
+                        offerDays.Add(new Day { DayID = d.DayID, DayName = d.DayName,
+                            Selected = true, LiftOfferID = off.LiftOfferID });
                     }
                     else
                     {
-                        offerDays.Add(new Day { DayID = d.DayID, DayName = d.DayName, Selected = false, LiftOfferID = off.LiftOfferID });
+                        offerDays.Add(new Day { DayID = d.DayID, DayName = d.DayName,
+                            Selected = false, LiftOfferID = off.LiftOfferID });
                     }
                 }         
             }

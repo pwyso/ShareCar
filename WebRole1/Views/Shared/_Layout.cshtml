@@ -25,11 +25,8 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink(" Lift Offers", "All", "LiftOffers", null, new { @class = "glyphicon glyphicon-road " })</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-
-                    @{
-                        var Site = " MyTwitterSite";
-                    }
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>                   
+                    
                     @* Menu displayed for all authenticated users *@
                     @if (Request.IsAuthenticated)
                     {
@@ -49,7 +46,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("Leave", "MyBookings", "SeatBookings")</li>
-                                @*<li>@Html.ActionLink("Leave to Seeker", "Received", "SeatBookings")</li>*@
+                                @*<li>@Html.ActionLink("For Seeker", "Received", "SeatBookings")</li>*@
                                 <li>@Html.ActionLink("Received", "Received", "Feedbacks")</li>
                             </ul>
                         </li>

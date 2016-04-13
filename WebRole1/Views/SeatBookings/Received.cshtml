@@ -4,7 +4,7 @@
     ViewBag.Title = "Received Offers";
 }
 
-<h2>Received offers</h2>
+<h2>Received Offers</h2>
 <br />
 <h4>New offers</h4>
 <table class="table">
@@ -163,7 +163,17 @@
                     model => item.LiftOffer.ArrivalHour):@Html.DisplayFor(model => item.LiftOffer.ArrivalMin)
                 </td>
                 <td>
-                    @Html.ActionLink("Feedback", "Create", "Feedbacks", new { id = item.User.Id }, null) |
+                    @if (item.Feedback == null)
+                    {
+                        @Html.ActionLink("Feedback", "Create", "Feedbacks") @:|
+                        // Pasing all related to SeatBooking info, to "~/Feedbacks/Create"
+                        TempData["model"] = item;
+                    }
+                    else
+                    {
+                        @:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
+                    }
+
                     @Html.ActionLink("Cancel", "Delete", "SeatBookings", new { id = item.SeatBooking.SeatBookingID }, null)
                 </td>
             </tr>
