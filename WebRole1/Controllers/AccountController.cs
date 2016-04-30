@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace ShareCar.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class AccountController : Controller
     {
@@ -156,21 +157,22 @@ namespace ShareCar.Controllers
             {
                 var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name,
                             PhoneNumber = model.PhoneNumber, Age = model.Age, IsSmoker = model.IsSmoker };
-                //* To enable email verification, comment this line *//
-                //user.EmailConfirmed = true;
+                //* To enable email verification, comment out below line *//
+                user.EmailConfirmed = true;
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    //* To enable email verification, comment this line *//
-                    //ViewBag.Info = "Welcome to the Share Car. Now, you can log in.";
+                    //* To enable email verification, comment out this line *//
+                    //* and comment out ViewBag.Link in ForgotPassword() *//
+                    ViewBag.Info = "Welcome to the Share Car. Now, you can log in.";
 
-                    //* To enable email verification, uncomment below 4 lines *//
-                    var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", 
-                        new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account",
-                        "Please confirm your account on &quotShare Car&quot by clicking this link: <a href=\"" +
-                            callbackUrl + "\">link</a>");
+                    //* To enable email verification, uncomment code below *//
+                    //var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", 
+                    //    new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    //await UserManager.SendEmailAsync(user.Id, "Confirm your account",
+                    //    "Please confirm your account on &quotShare Car&quot by clicking this link: <a href=\"" +
+                    //        callbackUrl + "\">link</a>");
 
                     return View("Info");
                 }
@@ -218,6 +220,7 @@ namespace ShareCar.Controllers
                     new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                 await UserManager.SendEmailAsync(user.Id, "Reset Password",
                     "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
+                //* To enable email verification, comment out this line *//
                 ViewBag.Link = callbackUrl;
                 return View("ForgotPasswordConfirmation");
             }

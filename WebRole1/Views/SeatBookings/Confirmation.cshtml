@@ -5,7 +5,7 @@
 
 <h2>Confirmation</h2>
 <h4>Your request has been sent.</h4>
-<h4>Now, you can contact with @Model.Name@Html.Raw(".")</h4>
+<h4>Now, you can contact with <span style="color:darkblue;font-size:large">@Model.Name@Html.Raw(".")</span></h4>
 <div>
     <hr />
     <dl class="dl-horizontal">
@@ -50,7 +50,13 @@
         </dd>
     </dl>
 </div>
-
-<p>
-    @Html.ActionLink("Back to List", "All", "LiftOffers")
-</p>
+<div class="form-group">
+    <div class="col-md-offset-1 col-md-10">
+        @Html.ActionLink("Back to List", "All", "LiftOffers")
+        &nbsp;|&nbsp;
+        @Html.ActionLink("My Bookings", "MyBookings", "SeatBookings", null , new {
+            @class = "btn btn-default" })
+    </div>
+</div>
+<div class="row">
+</div>

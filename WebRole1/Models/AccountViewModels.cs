@@ -62,21 +62,19 @@ namespace ShareCar.Models
     public enum IsSmoking { No, Yes }
     public class RegisterViewModel
     {
-
         [Required]
-        [StringLength(30, ErrorMessage = "Name: max. lenght of the Name is 30 characters.")]
-        [Display(Name = "Name")]
+        [RegularExpression("[a-zA-Z0-9]+", ErrorMessage = "Name: only numbers and letters allowed.")]
+        [Display(Name = "Name"), StringLength(30, ErrorMessage = "Name: max. 30 characters allowed.")]
         public string Name { get; set; }
 
         [Required]
-        // validate phone number: only numbers allowed with lenght 9 to 12, eg. 018268043, 035386112233
-        [RegularExpression("[0-9]{8,12}", ErrorMessage = "Phone No: no spaces allowed, 8 - 12 digits.")]
+        [RegularExpression("[0-9]{8,12}", ErrorMessage = "Phone No: only numbers, no spaces, lenght 8-12.")]
         [Display(Name = "Phone No.")]
         public string PhoneNumber { get; set; }
 
         [Required]
-        [Range(18, 99, ErrorMessage = "Age: you must be at least 18 years old.")]
-        [Display(Name = "Age")]
+        [RegularExpression("[0-9]{2}", ErrorMessage = "Age: only numbers allowed.")]
+        [Display(Name = "Age"), Range(18, 99, ErrorMessage = "Age: you must be min. 18 years old.")]
         public int Age { get; set; }
 
         [Required]

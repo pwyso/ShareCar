@@ -15,7 +15,6 @@
                             area = "" }, new { @class = "btn btn-primary btn-large" })
     </p>
 </div>
-
 <div class="col">
     <h4 style="font-weight:bolder">Latest offers</h4>
     <table class="table">
@@ -55,7 +54,6 @@
             // find user to display name and rating
             ApplicationDbContext db = new ApplicationDbContext();
             var name = db.Users.FirstOrDefault(user => user.Id == item.UserID);
-         
             <tr>
                 <td>
                     @Html.DisplayFor(model => name.Name)

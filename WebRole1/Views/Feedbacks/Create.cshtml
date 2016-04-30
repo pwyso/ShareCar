@@ -14,8 +14,9 @@
     User user = ViewBag.User;
 }
 
-<h2>Feedback for:</h2>
+<h2>Feedback</h2>
 <div>
+    <h4>Leave feedback for:</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -23,6 +24,12 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => user.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.RatingAvg)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => user.RatingAvg)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.User.Age)
@@ -72,7 +79,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 @Html.ActionLink("Back to List", "All", "Feedbacks") |
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Leave Feedback" class="btn btn-default" />
             </div>
         </div>
     </div>

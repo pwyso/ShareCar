@@ -3,11 +3,11 @@
 @model ShareCar.Models.LiftOffer
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Book Seat";
 }
 
 <h2>Book Seat</h2>
-<h4>Select no. of seats.</h4>
+<h4>Select number of seats.</h4>
 <div>
     <hr />
     <dl class="dl-horizontal">
@@ -132,7 +132,7 @@
 
             <div class="form-group">
                 <div class="col-md-offset-1 col-md-10">
-                    @Html.Label("How many ?", htmlAttributes: new { @class = "control-label" })
+                    @Html.Label("Select seats: ", htmlAttributes: new { @class = "control-label" })
                     &nbsp;
                     @Html.DropDownList("requestedSeats", seatsNo, "-no-", new { title = "Select seats" })
                 </div>
@@ -142,7 +142,7 @@
                 <div class="col-md-offset-1 col-md-10">
                     @Html.ActionLink("Back to List", "All", "LiftOffers")
                     &nbsp;|&nbsp;
-                    <input type="submit" value="Save" class="btn btn-default" />
+                    <input type="submit" value="Confirm" class="btn btn-default" />
                 </div>
             </div>
         </div>

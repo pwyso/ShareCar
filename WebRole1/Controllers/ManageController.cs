@@ -11,6 +11,7 @@ using System.Net;
 
 namespace ShareCar.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class ManageController : Controller
     {

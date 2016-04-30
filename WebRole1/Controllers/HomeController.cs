@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace ShareCar.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -31,6 +32,13 @@ namespace ShareCar.Controllers
                     offersNotExpired.Add(off);
                 }
             }
+            var users = new List<User>();
+            foreach (LiftOffer off in offersNotExpired.Take(3))
+            {
+                User usr = db.Users.Find(off.UserID);
+                users.Add(usr);
+            }
+            ViewBag.Users = users.ToList();
             // Display only 3 most recent offers
             return View(offersNotExpired.Take(3).ToList());
         }

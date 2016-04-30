@@ -11,6 +11,7 @@ using System.Collections.Generic;
 
 namespace ShareCar.Controllers
 {
+    [RequireHttps]
     [Authorize(Roles = "Admin")]
     public class RolesAdminController : Controller
     {

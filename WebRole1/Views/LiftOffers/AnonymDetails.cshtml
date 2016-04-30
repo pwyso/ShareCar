@@ -32,6 +32,22 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.User.Age)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => name.Age)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.IsSmoker)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => name.IsSmoker)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.StartPointName)
         </dt>
 
@@ -111,7 +127,7 @@
                 @Html.DisplayFor(model => model.EndDate)
             </dd>
         }
-        <!-- Displayed if any days provided -->
+        <!-- Displayed if any days selected -->
         @if (ViewBag.SelectedDays.Count != 0)
         {
             <dt>

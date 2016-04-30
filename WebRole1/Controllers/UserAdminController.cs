@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace ShareCar.Controllers
 {
+    [RequireHttps]
     [Authorize(Roles = "Admin")]
     public class UsersAdminController : Controller
     {

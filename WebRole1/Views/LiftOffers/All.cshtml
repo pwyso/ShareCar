@@ -7,14 +7,21 @@
 
 <div class="jumbotron">
 
-        @using (Html.BeginForm("All", "LiftOffers", FormMethod.Get))
+        @using (Html.BeginForm("All", "LiftOffers", FormMethod.Get, new { id = "form"}))
         {
             <p>
-            Find by City/Town: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-            <input type="submit" value="Search" />
+                <!-- Client side validation, numbers and listed below characters not allowed -->
+                Find by City/Town:
+                @*@Html.TextBox("SearchString", ViewBag.CurrentFilter as string)*@
+                @Html.TextBox("SearchString", "", new { data_val = "true",
+                    data_val_regex = "Provided invalid character.",
+                        data_val_regex_pattern = "[^_+-=.,!?#$€£%^&*(){}:;/|<>'~`]+" })
+                <input type="submit" id="btn" value="Search" />
+                <br />
+                @Html.ValidationMessage("SearchString", new { @style="font-size:16px"})
             </p>
         }
-
+        @ViewBag.CurrentFilter
 </div>
 <div class="col">
     <h4 style="font-weight:bolder">Available lift offers</h4>
@@ -85,3 +92,6 @@
         }
     </table>
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

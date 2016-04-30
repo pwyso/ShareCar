@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace ShareCar.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class LiftOffersController : Controller
     {

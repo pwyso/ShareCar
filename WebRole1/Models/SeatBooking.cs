@@ -13,7 +13,8 @@ namespace ShareCar.Models
         public DateTime CreateTime { get { return DateTime.Now; } set { } }
 
         [Required]
-        [Display(Name = "Seats Req."), Range(0, 10, ErrorMessage = "Seats Req: max no. of seats is 10.")]
+        [RegularExpression("[0-9]{1,2}", ErrorMessage = "Seats Avail.: only numbers allowed.")]
+        [Display(Name = "Seats Req."), Range(1, 10, ErrorMessage = "Seats Req: max no. of seats is 10.")]
         public int SeatsRequest { get; set; }
 
         public string OffererID { get; set; }

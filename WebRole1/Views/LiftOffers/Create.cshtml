@@ -93,7 +93,7 @@
             @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
-                <p style="font-size:12px"; class="text-danger">not required</p>
+                <p style="font-size:12px"; class="text-info">not required</p>
                 @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -112,7 +112,7 @@
     <p>&nbsp</p>
     <div>
         @Html.ActionLink("Back to List", "UserOffers", "LiftOffers") |
-        <input type="submit" value="Create" class="btn btn-default" />
+        <input type="submit" value="Create" class="btn btn-default" onclick="checkDate();" />
     </div>
 }
 @section Scripts

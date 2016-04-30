@@ -5,6 +5,7 @@ using Microsoft.Owin.Security.Cookies;
 using ShareCar.Models;
 using Owin;
 using System;
+using NWebsec.Owin;
 
 namespace ShareCar
 {
@@ -13,6 +14,8 @@ namespace ShareCar
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
+            // Add the Strict-Transport-Security header to the response (prevents from Man-In-The-Middle attacks)
+            app.UseHsts(o => o.MaxAge(365).IncludeSubdomains().AllResponses().Preload());
             // Configure the db context, user manager and role manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);

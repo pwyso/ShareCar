@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShareCar;
 using ShareCar.Controllers;
+using System.Threading.Tasks;
+using ShareCar.Models;
 
 namespace ShareCar.Tests.Controllers
 {
@@ -13,16 +15,32 @@ namespace ShareCar.Tests.Controllers
     public class HomeControllerTest
     {
         [TestMethod]
-        public void Index()
+        //public void Index()
+        public async Task CheckIfRetunIndexView()
         {
             // Arrange
             HomeController controller = new HomeController();
 
             // Act
-            ViewResult result = controller.Index() as ViewResult;
+            ViewResult result = await controller.Index() as ViewResult;
 
             // Assert
             Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        //public void Index()
+        public async Task Index()
+        {
+            // Arrange
+            HomeController controller = new HomeController();
+
+            // Act
+            ViewResult result = await controller.Index() as ViewResult;
+            var liftOffer = (LiftOffer)result.ViewData.Model;
+
+            // Assert
+            Assert.AreEqual(6, liftOffer.LiftOfferID);
         }
 
         [TestMethod]
@@ -35,7 +53,7 @@ namespace ShareCar.Tests.Controllers
             ViewResult result = controller.About() as ViewResult;
 
             // Assert
-            Assert.AreEqual("Your application description page.", result.ViewBag.Message);
+            Assert.AreEqual("Your app description page.", result.ViewBag.Message);
         }
 
         [TestMethod]

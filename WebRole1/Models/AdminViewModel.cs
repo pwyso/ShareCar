@@ -11,7 +11,8 @@ namespace ShareCar.Models
         public string RoleId { get; set; }
 
         [Required(AllowEmptyStrings = false)]
-        [Display(Name = "Role Name"), StringLength(20, ErrorMessage = "Role Name: max. 20 characters allowed.")]
+        [RegularExpression("[a-zA-Z]+", ErrorMessage = "Role Name: only letters allowed.")]
+        [Display(Name = "Role Name"), StringLength(30, ErrorMessage = "Role Name: max. lenght is 30.")]
         public string Name { get; set; }
     }
 
@@ -26,10 +27,10 @@ namespace ShareCar.Models
         public string Email { get; set; }
 
         [Required(AllowEmptyStrings = false)]
+        [RegularExpression("[a-zA-Z0-9]+", ErrorMessage = "Name: only numbers and letters allowed.")]
         [Display(Name = "Name"), StringLength(30, ErrorMessage = "Name: max. 30 characters allowed.")]
         public string Name { get; set; }
 
-        // Numbers only, lenght 8-12, no spaces
         [RegularExpression("[0-9]{8,12}", ErrorMessage = "Phone No: allowed numbers only, lenght 8 - 12.")]
         [Display(Name = "Phone No.")]
         public string PhNo { get; set; }

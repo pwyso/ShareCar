@@ -9,6 +9,7 @@ using System.Data.Entity;
 
 namespace ShareCar.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class FeedbacksController : Controller
     {
@@ -16,9 +17,9 @@ namespace ShareCar.Controllers
 
         // GET: Feedbacks/All
         [AllowAnonymous]
-        public ActionResult All()
+        public async Task<ActionResult> All()
         {
-            var feedbacks = db.Feedbacks;
+            var feedbacks = await db.Feedbacks.ToListAsync();
             return View(feedbacks);
         }
 

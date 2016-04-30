@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace ShareCar.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class SeatBookingsController : Controller
     {
@@ -41,7 +42,13 @@ namespace ShareCar.Controllers
         [HttpPost]        
         [ValidateAntiForgeryToken]                                               
         public async Task<ActionResult> Create(int id, string requestedSeats)   // Passed LiftOfferid  
-        {                                                                   
+        {    
+            if (requestedSeats == "")
+            {
+                // validation error message to be implemented
+                //requestedSeats = "0"; 
+                return RedirectToAction("Create", id);
+            }                                                              
             if (ModelState.IsValid)
             {
                 LiftOffer liftOffer = await db.LiftOffers.FindAsync(id);
